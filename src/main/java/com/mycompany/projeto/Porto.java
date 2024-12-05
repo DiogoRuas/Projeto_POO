@@ -8,6 +8,6 @@ package com.mycompany.projeto;
  *
  * @author maria
  */
-public class Porto {
+public class Porto implements Radar{
     
 }
