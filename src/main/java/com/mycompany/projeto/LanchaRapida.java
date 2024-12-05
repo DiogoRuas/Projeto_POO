@@ -8,6 +8,6 @@ package com.mycompany.projeto;
  *
  * @author maria
  */
-public class LanchaRapida extends Embarcacao {
+public class LanchaRapida extends Embarcacao implements Radar{
     
 }
