@@ -10,4 +10,6 @@ package com.mycompany.projeto;
  */
 public enum Zonas {
    NORTE, SUL, ESTE, OESTE, INDEF 
+   
+   //alfa romeu quero levar no cú
 }
