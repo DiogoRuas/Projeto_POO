@@ -29,7 +29,7 @@ public class Marinheiro {
         return nome;
     }
     
-      public final void setNome(String nome) {
+      public void setNome(String nome) {
         if (nome == null || nome.trim().isEmpty()) {
             throw new IllegalArgumentException("Nome nao pode ser nulo ou vazio");
         }
@@ -48,7 +48,7 @@ public class Marinheiro {
         return this.patente;
     }
      
-     public final void setPatente (Patente patente) {
+     public void setPatente (Patente patente) {
          if (patente == Patente.INDEF) {
             throw new IllegalArgumentException("Coloca uma patente valida");
         }
@@ -59,10 +59,18 @@ public class Marinheiro {
          return datanascimento;
      }
      
-     public final void setdatanascimento(LocalDate datanascimento) {
+     public void setdatanascimento(LocalDate datanascimento) {
          if (datanascimento == null) {
             throw new IllegalArgumentException("A data de nascimento nao pode ser nula");
         }
         this.datanascimento = datanascimento;
+     }
+     
+     
+     public void showInfo(){
+         System.out.println("nome: " + this.nome);
+         System.out.println("id: " + this.id);
+         System.out.println("data de nascimento: " + this.datanascimento);
+         System.out.println("patente " + this.patente + "\n");
      }
 }

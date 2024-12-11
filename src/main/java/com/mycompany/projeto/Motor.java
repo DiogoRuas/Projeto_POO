@@ -33,10 +33,10 @@ public class Motor {
         return combustivel;
     }
     
-    
     public int getConsumo(){
         return consumo;
     }
+    
 
     public void setPotencia(int potencia) {
         this.potencia = potencia;
