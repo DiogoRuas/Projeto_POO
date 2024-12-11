@@ -4,10 +4,19 @@
  */
 package com.mycompany.projeto;
 
+import java.time.LocalDate;
+
 /**
  *
  * @author maria
  */
 public class Embarcacao {
+    private int id;
+    private String nome;
+    private String marca;
+    private LocalDate data;
     
+    public void showInfo(){
+        
+    }
 }

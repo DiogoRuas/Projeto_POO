@@ -4,10 +4,38 @@
  */
 package com.mycompany.projeto;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author maria
  */
 public class Porto implements Radar{
+    
+    private ArrayList <Embarcacao> embarcacoes;
+    private String nome;
+    private int numTotalMissoes;
+
+    public Porto(String nome) {
+        this.embarcacoes = new ArrayList <Embarcacao>();
+        this.nome = nome;
+        this.numTotalMissoes = 0;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public int getNumTotalMissoes() {
+        return numTotalMissoes;
+    }
+    
+    public void showListaDeEmbarcacoes(){
+        for (Embarcacao embarcacao: embarcacoes){
+            embarcacao.showInfo();
+        }
+    }
+    
+    
     
 }
