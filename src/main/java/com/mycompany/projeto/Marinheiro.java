@@ -12,17 +12,11 @@ import java.time.LocalDate;
  * @author maria
  */
 public class Marinheiro {
-    private static int primeiroId = 999;
     private String nome;
-    private final int id;
+    private int id;
     private LocalDate datanascimento;
     private Patente patente;
-
     
-    
-    public enum Patente {
-        OFICIAL, SARGENTO, PRAÇA
-    }
 
     public Marinheiro(String nome, int id, LocalDate datanascimento, Patente patente) {
         this.nome = nome;
@@ -43,23 +37,20 @@ public class Marinheiro {
     }
       
      public int getid(){
-         
         return id;
     }
      
-     public final int setId(int id) {
-         primeiroId++;
-         return id;
+     public void setId(int id) {
+         this.id = id;
      }
      
      public Patente getPatente(){
-        return patente;
+        return this.patente;
     }
-    
      
-     public final void setPatente ( Patente patente) {
-         if (patente == null) {
-            throw new IllegalArgumentException("Patente nao pode ser nulo");
+     public final void setPatente (Patente patente) {
+         if (patente == Patente.INDEF) {
+            throw new IllegalArgumentException("Coloca uma patente valida");
         }
         this.patente = patente;
      }
