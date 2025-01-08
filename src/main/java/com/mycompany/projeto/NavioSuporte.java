@@ -8,6 +8,8 @@ package com.mycompany.projeto;
  *
  * @author maria
  */
-public class NavioSuporte extends Embarcacao implements Radar{
-    
+class NavioSuporte extends Embarcacao {
+    public NavioSuporte(int id, String nome, String marca, String modelo, String dataFabricacao, String combustivel) {
+        super(id, nome, marca, modelo, dataFabricacao, combustivel);
+    }
 }

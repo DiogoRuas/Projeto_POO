@@ -32,10 +32,7 @@ public class Porto implements Radar{
     
     public void showListaDeEmbarcacoes(){
         for (Embarcacao embarcacao: embarcacoes){
-            embarcacao.showInfo();
+            embarcacao.toString();
         }
-    }
-    
-    
-    
+    }   
 }

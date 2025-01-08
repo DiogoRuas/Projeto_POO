@@ -14,14 +14,14 @@ import java.time.LocalDate;
 public class Marinheiro {
     private String nome;
     private int id;
-    private LocalDate datanascimento;
+    private LocalDate dataNascimento;
     private Patente patente;
     
 
     public Marinheiro(String nome, int id, LocalDate datanascimento, Patente patente) {
         this.nome = nome;
         this.id = id;
-        this.datanascimento = datanascimento;
+        this.dataNascimento = datanascimento;
         this.patente = patente;
     }
     
@@ -29,7 +29,7 @@ public class Marinheiro {
         return nome;
     }
     
-      public void setNome(String nome) {
+    public void setNome(String nome) {
         if (nome == null || nome.trim().isEmpty()) {
             throw new IllegalArgumentException("Nome nao pode ser nulo ou vazio");
         }
@@ -56,21 +56,19 @@ public class Marinheiro {
      }
      
      public LocalDate getdatanascinento () {
-         return datanascimento;
+         return dataNascimento;
      }
      
      public void setdatanascimento(LocalDate datanascimento) {
          if (datanascimento == null) {
             throw new IllegalArgumentException("A data de nascimento nao pode ser nula");
         }
-        this.datanascimento = datanascimento;
+        this.dataNascimento = datanascimento;
      }
      
      
-     public void showInfo(){
-         System.out.println("nome: " + this.nome);
-         System.out.println("id: " + this.id);
-         System.out.println("data de nascimento: " + this.datanascimento);
-         System.out.println("patente " + this.patente + "\n");
-     }
+    @Override
+    public String toString() {
+        return "Marinheiro[" + "id=" + id + ", nome=" + nome + ", dataNascimento=" + dataNascimento + ", patente=" + patente + "]";
+    }
 }
