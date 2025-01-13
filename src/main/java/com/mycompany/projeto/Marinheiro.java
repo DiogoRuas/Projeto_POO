@@ -6,12 +6,14 @@ package com.mycompany.projeto;
  
 
 import java.time.LocalDate;
+import java.time.Period;
 
 /**
  *
  * @author maria
  */
 public class Marinheiro {
+    
     private String nome;
     private int id;
     private LocalDate dataNascimento;
@@ -28,47 +30,36 @@ public class Marinheiro {
     public String getNome(){
         return nome;
     }
-    
-    public void setNome(String nome) {
-        if (nome == null || nome.trim().isEmpty()) {
-            throw new IllegalArgumentException("Nome nao pode ser nulo ou vazio");
-        }
-        this.nome = nome;
-    }
       
      public int getid(){
         return id;
     }
      
-     public void setId(int id) {
-         this.id = id;
-     }
+    public void setId(int id) {
+        this.id = id;
+    }
      
-     public Patente getPatente(){
+    public Patente getPatente(){
         return this.patente;
     }
      
-     public void setPatente (Patente patente) {
+    public void setPatente (Patente patente) {
          if (patente == Patente.INDEF) {
             throw new IllegalArgumentException("Coloca uma patente valida");
         }
         this.patente = patente;
      }
      
-     public LocalDate getdatanascinento () {
+    public LocalDate getdatanascinento () {
          return dataNascimento;
      }
      
-     public void setdatanascimento(LocalDate datanascimento) {
-         if (datanascimento == null) {
-            throw new IllegalArgumentException("A data de nascimento nao pode ser nula");
-        }
-        this.dataNascimento = datanascimento;
+    public int getIdade(){
+         return Period.between(dataNascimento, LocalDate.now()).getYears();
      }
-     
-     
+    
     @Override
     public String toString() {
-        return "Marinheiro[" + "id=" + id + ", nome=" + nome + ", dataNascimento=" + dataNascimento + ", patente=" + patente + "]";
+        return "Marinheiro[" + "id=" + id + ", nome=" + nome + ", idade=" + this.getIdade() + ", patente=" + patente + "]";
     }
 }
