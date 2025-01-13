@@ -8,6 +8,6 @@ package com.mycompany.projeto;
  *
  * @author diogo
  */
-public enum Patente {
-    OFICIAL, SARGENTO, PRACA, INDEF
+public enum Zona {
+   NORTE, SUL, ESTE, OESTE, INDEF
 }

@@ -4,12 +4,13 @@
  */
 package com.mycompany.projeto;
 
+import java.time.LocalDate;
 /**
  *
  * @author maria
  */
 class BarcoPatrulha extends Embarcacao {
-    public BarcoPatrulha(int id, String nome, String marca, String modelo, String dataFabricacao, String combustivel) {
-        super(id, nome, marca, modelo, dataFabricacao, combustivel);
+    public BarcoPatrulha(int id, String nome, String marca, String modelo, LocalDate dataFabricacao) {
+        super(id, nome, marca, modelo, dataFabricacao);
     }
 }

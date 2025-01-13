@@ -14,6 +14,9 @@ public class Menu {
 
     private final Scanner scanner = new Scanner(System.in);
 
+    public Menu() {
+    }
+
     public void showMenu() {
         int mainOption;
 
