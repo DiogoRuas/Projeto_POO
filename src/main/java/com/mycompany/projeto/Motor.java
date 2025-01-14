@@ -53,8 +53,4 @@ public class Motor {
     public void setCombustivel(String combustivel) {
         this.combustivel = combustivel;
     }
-    
-    
-    
-
 }

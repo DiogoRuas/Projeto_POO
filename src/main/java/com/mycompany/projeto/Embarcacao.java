@@ -80,7 +80,7 @@ abstract class Embarcacao {
     
     
     // METODOS
-    public abstract void ativarMissao();
+    public abstract void ativarMissao(Zona zona, ArrayList<Marinheiro> tripulacao);
     
     public abstract void terminarMissao();
       

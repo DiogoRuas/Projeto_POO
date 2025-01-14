@@ -18,48 +18,76 @@ public class Marinheiro {
     private int id;
     private LocalDate dataNascimento;
     private Patente patente;
+    private boolean inMissao;
     
 
     public Marinheiro(String nome, int id, LocalDate datanascimento, Patente patente) {
+        if (nome == null || nome.isBlank()) {
+            throw new IllegalArgumentException("O nome da embarcacao nao pode ser nulo ou vazio.");
+        }
+        if (patente == Patente.INDEF) {
+            throw new IllegalArgumentException("Coloca uma patente valida");
+        }
+        if (this.getIdade() < 35 && patente == Patente.OFICIAL){
+            throw new IllegalArgumentException("Nao pode haver oficiais com menos de 35 anos");
+        }
+        
         this.nome = nome;
         this.id = id;
         this.dataNascimento = datanascimento;
         this.patente = patente;
+        this.inMissao = false;
     }
     
-    public String getNome(){
+    // GETTERS
+    public String getNome() {
         return nome;
     }
-      
-     public int getid(){
+
+    public int getId() {
         return id;
     }
-     
+
+    public Patente getPatente() {
+        return this.patente;
+    }
+
+    public LocalDate getdataNascinento() {
+        return dataNascimento;
+    }
+
+    public int getIdade() {
+        return Period.between(dataNascimento, LocalDate.now()).getYears();
+    }
+
+    public boolean isInMissao() {
+        return inMissao;
+    }
+    
+    
+    // SETTERS
     public void setId(int id) {
         this.id = id;
     }
-     
-    public Patente getPatente(){
-        return this.patente;
-    }
-     
-    public void setPatente (Patente patente) {
-         if (patente == Patente.INDEF) {
+    
+    public void setPatente(Patente patente) {
+        if (patente == Patente.INDEF) {
             throw new IllegalArgumentException("Coloca uma patente valida");
         }
+        if (this.getIdade() < 35 && patente == Patente.OFICIAL){
+            throw new IllegalArgumentException("Nao pode haver oficiais com menos de 35 anos");
+        }
         this.patente = patente;
-     }
-     
-    public LocalDate getdatanascinento () {
-         return dataNascimento;
-     }
-     
-    public int getIdade(){
-         return Period.between(dataNascimento, LocalDate.now()).getYears();
-     }
+    }
+
+    public void setInMissao(boolean inMissao) {
+        this.inMissao = inMissao;
+    }
     
+    
+    // METODOS
     @Override
     public String toString() {
-        return "Marinheiro[" + "id=" + id + ", nome=" + nome + ", idade=" + this.getIdade() + ", patente=" + patente + "]";
+        return "Marinheiro[" + "id=" + id + ", nome=" + nome + ", idade=" + this.getIdade() + ", patente=" + patente + ", inMissao=" + inMissao + "]";
     }
 }
