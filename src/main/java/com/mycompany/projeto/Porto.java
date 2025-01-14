@@ -15,6 +15,7 @@ public class Porto {
     private ArrayList <Embarcacao> embarcacoes;
     private String nome;
     private int numTotalMissoes;
+    private RadarSimples radar;
     private ArrayList<Embarcacao> embarcacoesDetetadas;
 
     public Porto(String nome) {
@@ -36,4 +37,5 @@ public class Porto {
             embarcacao.toString();
         }
     }
+
 }

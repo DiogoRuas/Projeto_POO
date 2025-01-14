@@ -9,14 +9,21 @@ package com.mycompany.projeto;
  * @author maria
  */
 public class Motor {
+    private int potencia; // Potência em cavalos (cv)
+    private double cilindrada; // Cilindrada em cm³
+    private double fuelTankCapacity; // Capacidade do tanque
+    private String combustivel; // Tipo de combustível
+    private int consumo; // Consumo em litros por hora
 
-    private int potencia;
-    private double cilindrada;
-    private double fuelTankCapacity;
-    private String combustivel;
-    private int consumo;
-    
-    
+    public Motor(int potencia, double cilindrada, double fuelTankCapacity, String combustivel, int consumo) {
+        this.potencia = potencia;
+        this.cilindrada = cilindrada;
+        this.fuelTankCapacity = fuelTankCapacity;
+        this.combustivel = combustivel;
+        this.consumo = consumo;
+    }
+
+    // GETTERS
     public int getPotencia() {
         return potencia;
     }
@@ -32,12 +39,12 @@ public class Motor {
     public String getCombustivel() {
         return combustivel;
     }
-    
-    public int getConsumo(){
+
+    public int getConsumo() {
         return consumo;
     }
-    
 
+    // SETTERS
     public void setPotencia(int potencia) {
         this.potencia = potencia;
     }
@@ -52,5 +59,21 @@ public class Motor {
 
     public void setCombustivel(String combustivel) {
         this.combustivel = combustivel;
+    }
+
+    public void setConsumo(int consumo) {
+        this.consumo = consumo;
+    }
+
+    // METODOS
+    @Override
+    public String toString() {
+        return "Motor {" +
+                "Potência=" + potencia + " cv" +
+                ", Cilindrada=" + cilindrada + " cm³" +
+                ", Capacidade do Tanque=" + fuelTankCapacity + " litros" +
+                ", Combustível='" + combustivel + '\'' +
+                ", Consumo=" + consumo + " L/h" +
+                '}';
     }
 }

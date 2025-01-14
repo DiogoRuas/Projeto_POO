@@ -20,7 +20,7 @@ class LanchaRapida extends Embarcacao {
         super(id, nome, marca, modelo, dataFabricacao);
         
         if (motores.size() < 2 || motores.size() > 4){
-            throw new IllegalArgumentException("Lacha Rapida: Quantidade invalida de motores para. Tem de ter 2 a 4");
+            throw new IllegalArgumentException("Lacha Rapida: Quantidade invalida de motores. Tem de ter 2 a 4");
         }
 
         this.motores = motores;
@@ -35,7 +35,7 @@ class LanchaRapida extends Embarcacao {
         }
         
         if (tripulacao.size() < 2 || tripulacao.size() > 4){
-            throw new IllegalArgumentException("Lacha Rapida: Quantidade invalida de motores para. Tem de ter 2 a 4");
+            throw new IllegalArgumentException("Lacha Rapida: Quantidade invalida de marinheiros. Tem de ter 2 a 4");
         }
         
         boolean hasSargento = false;

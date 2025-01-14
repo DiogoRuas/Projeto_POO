@@ -23,8 +23,8 @@ class NavioSuporte extends Embarcacao {
     public NavioSuporte(int id, String nome, String marca, String modelo, LocalDate dataFabricacao, ArrayList<Motor> motores, int capacidadeCarga, int numCamas, int botes) {
         super(id, nome, marca, modelo, dataFabricacao);
         
-        if (motores.size() < 4 || motores.size() > 10){
-            throw new IllegalArgumentException("Navio Suporte: Quantidade invalida de motores para. Tem de ter 4 a 10");
+        if (motores.size() != 2){
+            throw new IllegalArgumentException("Navio Suporte: Quantidade invalida de motores. Tem de ter 2 motores");
         }
         
         for (Motor m : motores){
@@ -38,13 +38,14 @@ class NavioSuporte extends Embarcacao {
         this.capacidadeCarga = capacidadeCarga;
         this.numCamas = numCamas;
         this.botesSalvaVidas = botes;
+        this.radar = new RadarSimples();
     }
     
     @Override
     public void ativarMissao(Zona zona, ArrayList<Marinheiro> tripulacao){
         
         if (this.inMissao == true){
-            throw new IllegalArgumentException("Lancha Rápida: Ja esta em missao");
+            throw new IllegalArgumentException("Navio Suporte: Ja esta em missao");
         }
         
         if (tripulacao.size() < 2 || tripulacao.size() > 4) {
@@ -79,14 +80,14 @@ class NavioSuporte extends Embarcacao {
         this.holofote = true; 
         this.tripulacao = tripulacao;
         
-        System.out.println("Lancha rapida " + "'" + this.nome + "': Estou em missao de Suporte");
+        System.out.println("Navio Suporte " + "'" + this.nome + "': Estou em missao de Suporte");
     }
     
     @Override
     public void terminarMissao(){
         
         if (this.inMissao == false){
-            throw new IllegalArgumentException("Lancha Rápida: Nao esta em missao");
+            throw new IllegalArgumentException("Navio Suporte: Nao esta em missao");
         }
         
         this.inMissao = false;
@@ -95,6 +96,21 @@ class NavioSuporte extends Embarcacao {
         for (Marinheiro m : this.tripulacao) {
             m.setInMissao(false);
         }
+        
         System.out.println("Navio Suporte " + "'" + this.nome + "': Terminei a missao de Suporte");
+    }
+    
+    public void ativaRadar(ArrayList<Embarcacao> todasEmbarcacoes) {
+        if (!this.inMissao) {
+            throw new IllegalStateException("Navio Suporte: O radar só pode ser ativado durante uma missão.");
+        }
+        if (this.radar == null) {
+            throw new IllegalStateException("Navio Suporte: Radar não está instalado.");
+        }
+
+        this.radar.ligar();
+        ArrayList<Embarcacao> detectadas = radar.detectarEmbarcacoes(todasEmbarcacoes, this.zona);
+        System.out.println("Radar ativado e operando. Embarcações detectadas: " + detectadas.size());
+        this.radar.exibirInformacoesDeteccoes();
     }
 }

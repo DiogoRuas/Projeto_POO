@@ -18,7 +18,7 @@ public interface Radar {
 
     boolean isOn();
 
-    List<Embarcacao> detectarEmbarcacoes(ArrayList<Embarcacao> todasEmbarcacoes, String zona);
+    List<Embarcacao> detectarEmbarcacoes(ArrayList<Embarcacao> todasEmbarcacoes, Zona zona);
 
     void exibirInformacoesDeteccoes();
 }

@@ -39,7 +39,7 @@ public class RadarSimples implements Radar {
     }
     
     @Override
-    public ArrayList<Embarcacao> detectarEmbarcacoes(ArrayList<Embarcacao> todasEmbarcacoes, String zona) {
+    public ArrayList<Embarcacao> detectarEmbarcacoes(ArrayList<Embarcacao> todasEmbarcacoes, Zona zona) {
         if (!isOn) {
             System.out.println("Radar está desligado. Nenhuma informação disponível.");
             return null;
@@ -59,7 +59,7 @@ public class RadarSimples implements Radar {
     public void exibirInformacoesDeteccoes() {
         System.out.println("Embarcações detectadas:");
         for (Embarcacao e : embarcacoesDetectadas) {
-            System.out.println(e);
+            e.toString();
         }
     }
 }

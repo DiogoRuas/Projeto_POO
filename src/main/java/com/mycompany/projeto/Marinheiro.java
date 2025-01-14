@@ -21,20 +21,20 @@ public class Marinheiro {
     private boolean inMissao;
     
 
-    public Marinheiro(String nome, int id, LocalDate datanascimento, Patente patente) {
+    public Marinheiro(String nome, int id, LocalDate dataNascimento, Patente patente) {
         if (nome == null || nome.isBlank()) {
             throw new IllegalArgumentException("O nome da embarcacao nao pode ser nulo ou vazio.");
         }
         if (patente == Patente.INDEF) {
             throw new IllegalArgumentException("Coloca uma patente valida");
         }
-        if (this.getIdade() < 35 && patente == Patente.OFICIAL){
+        if (Period.between(dataNascimento, LocalDate.now()).getYears() < 35 && patente == Patente.OFICIAL){
             throw new IllegalArgumentException("Nao pode haver oficiais com menos de 35 anos");
         }
         
         this.nome = nome;
         this.id = id;
-        this.dataNascimento = datanascimento;
+        this.dataNascimento = dataNascimento;
         this.patente = patente;
         this.inMissao = false;
     }
