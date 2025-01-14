@@ -100,7 +100,7 @@ class NavioSuporte extends Embarcacao {
         System.out.println("Navio Suporte " + "'" + this.nome + "': Terminei a missao de Suporte");
     }
     
-    public void ativaRadar(ArrayList<Embarcacao> todasEmbarcacoes) {
+    public void ativarRadar(ArrayList<Embarcacao> todasEmbarcacoes) {
         if (!this.inMissao) {
             throw new IllegalStateException("Navio Suporte: O radar só pode ser ativado durante uma missão.");
         }
