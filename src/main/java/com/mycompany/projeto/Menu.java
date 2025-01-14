@@ -4,6 +4,7 @@
  */
 package com.mycompany.projeto;
 
+import java.util.*;
 import java.util.Scanner;
 
 /**
@@ -13,6 +14,8 @@ import java.util.Scanner;
 public class Menu {
 
     private final Scanner scanner = new Scanner(System.in);
+    private List<Integer> existingIDs = new ArrayList<>();
+    private List<Marinheiro> marinheiros = new ArrayList<>();
 
     public Menu() {
     }
@@ -68,8 +71,9 @@ public class Menu {
             System.out.println("|           MODO MANUTENCAO            |");
             System.out.println("----------------------------------------");
             System.out.println("| 1. Criar Embarcacao                  |");
-            System.out.println("| 2. Editar Embarcacao                 |");
-            System.out.println("| 3. Remover Embarcacao                |");
+            System.out.println("| 2. Adicionar Marinheiro              |");
+            System.out.println("| 3. Editar Embarcacao                 |");
+            System.out.println("| 4. Remover Embarcacao                |");
             System.out.println("| 0. Voltar                            |");
             System.out.println("----------------------------------------");
             System.out.print("Escolha uma opcao: ");
@@ -93,9 +97,16 @@ public class Menu {
                 case 1 ->
                     System.out.println("Opcao: Criar Embarcacao");
                 case 2 ->
-                    System.out.println("Opcao: Editar Embarcacao");
+                    {
+                    Marinheiro novoMarinheiro = RecolhaInfo.criarMarinheiro(scanner, existingIDs);
+                    if (novoMarinheiro != null) {
+                        marinheiros.add(novoMarinheiro); // Adiciona o marinheiro à lista
+                    }
+                }
                 case 3 ->
                     System.out.println("Opcao: Remover Embarcacao");
+                case 4 ->
+                    System.out.println("Opcao: Editar Embarcacao");
                 case 0 ->
                     System.out.println("Voltando ao menu principal...");
                 default ->
@@ -137,7 +148,7 @@ public class Menu {
                 case 1 ->
                     System.out.println("Opcao: Iniciar Missao");
                 case 2 ->
-                    System.out.println("Opcao: Info Marinheiros");
+                    RecolhaInfo.infoMarinheiros(marinheiros, scanner);
                 case 3 ->
                     System.out.println("Opcao: Info Embarcacoes");
                 case 4 ->
