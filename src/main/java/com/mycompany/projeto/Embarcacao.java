@@ -18,7 +18,7 @@ abstract class Embarcacao {
     protected LocalDate dataFabricacao;
     protected Zona zona;
     protected ArrayList<Marinheiro> tripulacao;
-    protected ArrayList<Embarcacao> embarcacoesDetetadas;
+    protected boolean inMissao;
 
     public Embarcacao(int id, String nome, String marca, String modelo, LocalDate dataFabricacao) {
         if (nome == null || nome.isBlank()) {
@@ -31,6 +31,7 @@ abstract class Embarcacao {
         this.dataFabricacao = dataFabricacao;
         this.zona = Zona.INDEF;
         this.tripulacao = new ArrayList<>();
+        this.inMissao = false;
     }
 
     
@@ -62,6 +63,12 @@ abstract class Embarcacao {
     public ArrayList<Marinheiro> getTripulacao() {
         return tripulacao;
     }
+
+    public boolean isInMissao() {
+        return inMissao;
+    }
+    
+    
     
     
     // SETTERS
@@ -70,24 +77,13 @@ abstract class Embarcacao {
         this.zona = zona;
     }
     
-    public void detectarEmbarcacoes(ArrayList<Embarcacao> todasEmbarcacoes, String zona) {
-        embarcacoesDetetadas.clear();
-        for (Embarcacao e : todasEmbarcacoes) {
-            if (zona.equals(e.getZona())) { // Assumindo um método getZona()
-                embarcacoesDetetadas.add(e);
-            }
-        }
-        System.out.println("Numero de Embarcações detectadas na zona " + zona + ": " + embarcacoesDetetadas.size());
-    }
-
-    public void exibirInformacoesDeteccoes() {
-        System.out.println("Embarcações detectadas:");
-        for (Embarcacao e : embarcacoesDetetadas) {
-            System.out.println(e.toString());
-        }
-    }
     
     
+    // METODOS
+    public abstract void ativarMissao();
+    
+    public abstract void terminarMissao();
+      
     @Override
     public String toString() {
         return "Embarcacao[" + "id=" + id + ", nome=" + nome + ", marca=" + marca + ", modelo=" + modelo + ", dataFabricacao=" + dataFabricacao + "]";
