@@ -50,10 +50,21 @@ public class Projeto {
         tripulacao2.add(ana);
         
         
-        Embarcacao lancha1 = new LanchaRapida(77777, "Lancha1", "Toyota", "Model 5", LocalDate.of(1999, Month.SEPTEMBER, 11), motores1);
-        Embarcacao lancha2 = new LanchaRapida(88888, "Lancha2", "Yamaha", "Model Z", LocalDate.of(2005, Month.JUNE, 18), motores2);
+        ArrayList<Embarcacao> listaEmbarcacoes = new ArrayList<>();
         
-        Embarcacao navioSuporte1 = new NavioSuporte(112, "Suporte1", "dopsaj", "Model X", LocalDate.of(1980, Month.SEPTEMBER, 22), motores2, 10000, 100, 8);
-        Embarcacao navioSuporte2 = new NavioSuporte(113, "Suporte2", "NavalTech", "Model Y", LocalDate.of(1995, Month.MAY, 15), motores3, 20000, 150, 12);
+        LanchaRapida lancha1 = new LanchaRapida(77777, "Lancha1", "Toyota", "Model 5", LocalDate.of(1999, Month.SEPTEMBER, 11), motores1);
+        listaEmbarcacoes.add(lancha1);
+        LanchaRapida lancha2 = new LanchaRapida(88888, "Lancha2", "Yamaha", "Model Z", LocalDate.of(2005, Month.JUNE, 18), motores2);
+        listaEmbarcacoes.add(lancha2);
+        
+        NavioSuporte navioSuporte1 = new NavioSuporte(112, "Suporte1", "dopsaj", "Model X", LocalDate.of(1980, Month.SEPTEMBER, 22), motores2, 10000, 100, 8);
+        listaEmbarcacoes.add(navioSuporte1);
+        NavioSuporte navioSuporte2 = new NavioSuporte(113, "Suporte2", "NavalTech", "Model Y", LocalDate.of(1995, Month.MAY, 15), motores3, 20000, 150, 12);
+        listaEmbarcacoes.add(navioSuporte2);
+        
+        lancha1.ativarMissao(Zona.NORTE, tripulacao1);
+        lancha2.ativarMissao(Zona.NORTE, tripulacao2);
+        navioSuporte1.ativarMissao(Zona.NORTE, tripulacao1);
+        navioSuporte1.ativarRadar(listaEmbarcacoes);
     }
 }
