@@ -10,11 +10,12 @@ import java.util.ArrayList;
  *
  * @author maria
  */
-public class Porto implements Radar{
+public class Porto {
     
     private ArrayList <Embarcacao> embarcacoes;
     private String nome;
     private int numTotalMissoes;
+    private ArrayList<Embarcacao> embarcacoesDetetadas;
 
     public Porto(String nome) {
         this.embarcacoes = new ArrayList <Embarcacao>();
@@ -34,5 +35,5 @@ public class Porto implements Radar{
         for (Embarcacao embarcacao: embarcacoes){
             embarcacao.toString();
         }
-    }   
+    }
 }

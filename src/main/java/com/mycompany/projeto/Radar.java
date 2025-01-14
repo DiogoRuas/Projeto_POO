@@ -4,10 +4,21 @@
  */
 package com.mycompany.projeto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author maria
  */
 public interface Radar {
-    
+    void ligar();
+
+    void desligar();
+
+    boolean isOn();
+
+    List<Embarcacao> detectarEmbarcacoes(ArrayList<Embarcacao> todasEmbarcacoes, String zona);
+
+    void exibirInformacoesDeteccoes();
 }
