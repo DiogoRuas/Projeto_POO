@@ -5,11 +5,16 @@
 package com.mycompany.projeto;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 /**
  *
  * @author maria
  */
 class NavioSuporte extends Embarcacao {
+    
+    private ArrayList<Motor> motor;
+    private boolean holofote;
+    
     public NavioSuporte(int id, String nome, String marca, String modelo, LocalDate dataFabricacao) {
         super(id, nome, marca, modelo, dataFabricacao);
     }

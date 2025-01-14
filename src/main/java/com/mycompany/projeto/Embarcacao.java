@@ -16,21 +16,25 @@ abstract class Embarcacao {
     protected String marca;
     protected String modelo;
     protected LocalDate dataFabricacao;
-    protected ArrayList<Motor> motores;
     protected Zona zona;
     protected ArrayList<Marinheiro> tripulacao;
+    protected ArrayList<Embarcacao> embarcacoesDetetadas;
 
     public Embarcacao(int id, String nome, String marca, String modelo, LocalDate dataFabricacao) {
+        if (nome == null || nome.isBlank()) {
+            throw new IllegalArgumentException("O nome da embarcacao nao pode ser nulo ou vazio.");
+        }
         this.id = id;
         this.nome = nome;
         this.marca = marca;
         this.modelo = modelo;
         this.dataFabricacao = dataFabricacao;
-        this.motores = new ArrayList<>();
         this.zona = Zona.INDEF;
         this.tripulacao = new ArrayList<>();
     }
 
+    
+    // GETTERS
     public int getId() {
         return id;
     }
@@ -47,20 +51,8 @@ abstract class Embarcacao {
         return modelo;
     }
 
-    public void setMotores(ArrayList<Motor> motores) {
-        this.motores = motores;
-    }
-
-    public void setZona(Zona zona) {
-        this.zona = zona;
-    }
-
     public LocalDate getDataFabricacao() {
         return dataFabricacao;
-    }
-
-    public ArrayList<Motor> getMotores() {
-        return motores;
     }
 
     public Zona getZona() {
@@ -70,6 +62,31 @@ abstract class Embarcacao {
     public ArrayList<Marinheiro> getTripulacao() {
         return tripulacao;
     }
+    
+    
+    // SETTERS
+
+    public void setZona(Zona zona) {
+        this.zona = zona;
+    }
+    
+    public void detectarEmbarcacoes(ArrayList<Embarcacao> todasEmbarcacoes, String zona) {
+        embarcacoesDetetadas.clear();
+        for (Embarcacao e : todasEmbarcacoes) {
+            if (zona.equals(e.getZona())) { // Assumindo um método getZona()
+                embarcacoesDetetadas.add(e);
+            }
+        }
+        System.out.println("Numero de Embarcações detectadas na zona " + zona + ": " + embarcacoesDetetadas.size());
+    }
+
+    public void exibirInformacoesDeteccoes() {
+        System.out.println("Embarcações detectadas:");
+        for (Embarcacao e : embarcacoesDetetadas) {
+            System.out.println(e.toString());
+        }
+    }
+    
     
     @Override
     public String toString() {
