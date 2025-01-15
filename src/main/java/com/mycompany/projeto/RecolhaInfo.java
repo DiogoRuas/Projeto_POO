@@ -173,7 +173,7 @@ public class RecolhaInfo {
 
     // FILE READING
     public static List<Marinheiro> LerMarinheiros() {
-        
+
         Scanner scanner = new Scanner(System.in);
         List<Marinheiro> marinheiros = new ArrayList<>();
 
@@ -205,7 +205,7 @@ public class RecolhaInfo {
     }
 
     public static List<Embarcacao> LerEmbarcacoes() {
-        
+
         Scanner scanner = new Scanner(System.in);
         List<Embarcacao> embarcacoes = new ArrayList<>();
 
@@ -226,7 +226,7 @@ public class RecolhaInfo {
 
                     BarcoPatrulha embarcacao = new BarcoPatrulha(id, nome, marca, modelo, dataFabricacao);
                     embarcacoes.add(embarcacao);
-                    
+
                 } else if (line.startsWith("NavioSuporte[")) {
                     // Processa navios de suporte
                     String[] parts = line.replace("NavioSuporte[", "").replace("]", "").split(", ");
@@ -241,7 +241,7 @@ public class RecolhaInfo {
 
                     NavioSuporte navio = new NavioSuporte(id, nome, marca, modelo, dataFabricacao, new ArrayList<>(), capacidadeCarga, numCamas, botes);
                     embarcacoes.add(navio);
-                    
+
                 } else if (line.startsWith("LanchaRapida[")) {
                     // Processa lanchas rápidas
                     String[] parts = line.replace("LanchaRapida[", "").replace("]", "").split(", ");
@@ -253,8 +253,7 @@ public class RecolhaInfo {
 
                     LanchaRapida lancha = new LanchaRapida(id, nome, marca, modelo, dataFabricacao, new ArrayList<>());
                     embarcacoes.add(lancha);
-                }
-                else{
+                } else {
                     throw new IllegalArgumentException("Tipo desconhecido de embarcação: " + line);
                 }
             }

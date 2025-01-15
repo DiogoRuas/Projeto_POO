@@ -4,6 +4,7 @@
  */
 package com.mycompany.projeto;
 
+import java.util.*;
 import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
@@ -208,7 +209,7 @@ public class Menu {
                 case 0 -> {
                     System.out.println("A sair do programa...");
                     System.exit(0);
-                 }
+                }
                 default ->
                     System.out.println("Opcao invalida!");
             }
