@@ -77,8 +77,8 @@ public class Menu {
             System.out.println("----------------------------------------");
             System.out.println("| 1. Criar Embarcacao                  |");
             System.out.println("| 2. Adicionar Marinheiro              |");
-            System.out.println("| 3. Editar Embarcacao                 |");
-            System.out.println("| 4. Remover Embarcacao                |");
+            System.out.println("| 3. Remover Embarcacao                |");
+            System.out.println("| 4. Remover Marinheiro                |");
             System.out.println("| 5. Recolher Marinheiros de ficheiro  |");
             System.out.println("| 6. Recolher Embarcacoes de ficheiro  |");
             System.out.println("| 0. Voltar                            |");
@@ -160,7 +160,7 @@ public class Menu {
                 case 2 ->
                     RecolhaInfo.infoMarinheiros(marinheiros, scanner);
                 case 3 ->
-                    System.out.println("Opcao: Info Embarcacoes");
+                    RecolhaInfo.infoEmbarcacoes(embarcacoes, scanner);
                 case 4 ->
                     System.out.println("Opcao: Ver Embarcacoes");
                 case 0 ->

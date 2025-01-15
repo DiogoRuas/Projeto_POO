@@ -115,6 +115,14 @@ class NavioSuporte extends Embarcacao {
     
     @Override
     public String toString() {
-        return "NavioSuporte[" + super.toString() + ", capacidadeCarga=" + capacidadeCarga + ", numCamas=" + numCamas + ", botes=" + botesSalvaVidas + "]";
+        String motoresInfo = "";
+        for (Motor m : motor) {
+            motoresInfo += m.toString() + "; ";
+        }
+        return "NavioSuporte[" + super.toString()
+                + ", capacidadeCarga=" + capacidadeCarga + " kg"
+                + ", numCamas=" + numCamas
+                + ", botesSalvaVidas=" + botesSalvaVidas + "]"
+                + ", motores=" + motoresInfo;
     }
 }

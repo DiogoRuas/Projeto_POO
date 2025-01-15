@@ -9,11 +9,11 @@ package com.mycompany.projeto;
  * @author maria
  */
 public class Motor {
-    private int potencia; // Potência em cavalos (cv)
-    private double cilindrada; // Cilindrada em cm³
-    private double fuelTankCapacity; // Capacidade do tanque
+    private int potencia; 
+    private double cilindrada; 
+    private double fuelTankCapacity; 
     private String combustivel; // Tipo de combustível
-    private int consumo; // Consumo em litros por hora
+    private int consumo; // Consumo delitros por hora
 
     public Motor(int potencia, double cilindrada, double fuelTankCapacity, String combustivel, int consumo) {
         this.potencia = potencia;

@@ -83,6 +83,10 @@ class LanchaRapida extends Embarcacao {
     
     @Override
     public String toString() {
-        return "LanchaRapida[" + super.toString() + "]";
+        String motoresInfo = "";
+        for (Motor m : motores) {
+            motoresInfo += m.toString()+ "; ";
+        }
+        return "LanchaRapida[" + super.toString() + ", motores=" + motoresInfo + "]";
     }
 }

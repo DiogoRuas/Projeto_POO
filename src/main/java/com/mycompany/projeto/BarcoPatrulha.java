@@ -17,8 +17,11 @@ class BarcoPatrulha extends Embarcacao {
     private boolean holofote;
     private RadarSimples radar;
 
-    public BarcoPatrulha(int id, String nome, String marca, String modelo, LocalDate dataFabricacao) {
+    public BarcoPatrulha(int id, String nome, String marca, Motor motor, String modelo, LocalDate dataFabricacao) {
         super(id, nome, marca, modelo, dataFabricacao);
+        this.motor = motor;
+        this.radar = new RadarSimples();
+        this.holofote = false;
     }
 
     @Override
@@ -32,7 +35,6 @@ class BarcoPatrulha extends Embarcacao {
             throw new IllegalArgumentException("Barco de Patrulha: Quantidade invalida de motores para. Tem de ter 2 a 4");
         }
 
-        boolean hasOficial = false;
         int contadorOficiais = 0;
 
         for (Marinheiro m : tripulacao) {
@@ -53,7 +55,6 @@ class BarcoPatrulha extends Embarcacao {
         this.zona = zona;
         this.holofote = true;
         this.tripulacao = tripulacao;
-        this.radar = new RadarSimples();
 
         System.out.println("Barco de Patrulha " + "'" + this.nome + "': Estou em missão de captura");
     }
@@ -91,7 +92,7 @@ class BarcoPatrulha extends Embarcacao {
 
     @Override
     public String toString() {
-        return "BarcoPatrulha[" + super.toString() + "]";
+        return "BarcoPatrulha[" + super.toString() + ", motor=" + motor.toString() + "]";
     }
 
 }

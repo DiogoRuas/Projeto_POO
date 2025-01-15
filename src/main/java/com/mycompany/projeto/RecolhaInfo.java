@@ -143,6 +143,16 @@ public class RecolhaInfo {
             }
         } while (opcaoOrdenacao != 0);
     }
+    
+    public static void infoEmbarcacoes(List<Embarcacao> embarcacoes, Scanner scanner) {
+        if (embarcacoes.isEmpty()) {
+            System.out.println("Nao ha embarcacoes registrados.");
+            return;
+        }
+        for (Embarcacao e : embarcacoes) {
+            System.out.println(e);
+        }
+    }
 
     // FILE WRITING
     public static void GuardarInfo(List<Marinheiro> marinheiros, List<Embarcacao> embarcacoes) {
@@ -162,8 +172,10 @@ public class RecolhaInfo {
         }
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("output.txt"))) {
+            writer.write("Lista de embarcacoes:\n");
             writer.write(informacaoEmbarcacoes);
             writer.write("\n");
+            writer.write("Lista de marinheiros:\n");
             writer.write(informacaoMarinheiros);
             System.out.println("Informacoes salvas com sucesso!");
         } catch (IOException e) {
@@ -205,11 +217,11 @@ public class RecolhaInfo {
     }
 
     public static List<Embarcacao> LerEmbarcacoes() {
-
+        
         Scanner scanner = new Scanner(System.in);
         List<Embarcacao> embarcacoes = new ArrayList<>();
 
-        System.out.print("Insira o nome do ficheiro para ler as embarcações: ");
+        System.out.print("Insira o nome do ficheiro para ler as embarcacoes: ");
         String filePath = scanner.nextLine();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
@@ -217,50 +229,98 @@ public class RecolhaInfo {
             while ((line = reader.readLine()) != null) {
                 if (line.startsWith("BarcoPatrulha[")) {
 
-                    String[] parts = line.replace("BarcoPatrulha[", "").replace("]", "").split(", ");
-                    int id = Integer.parseInt(parts[0].split("=")[1]);
-                    String nome = parts[1].split("=")[1];
-                    String marca = parts[2].split("=")[1];
-                    String modelo = parts[3].split("=")[1];
-                    LocalDate dataFabricacao = LocalDate.parse(parts[4].split("=")[1]);
+                    String[] parts = line.replace("BarcoPatrulha[", "").replace("]", "").split(", motor=");
+                    String embarcacaoInfo = parts[0];
+                    String motorInfo = parts[1];
 
-                    BarcoPatrulha embarcacao = new BarcoPatrulha(id, nome, marca, modelo, dataFabricacao);
-                    embarcacoes.add(embarcacao);
+                    String[] embarcacaoParts = embarcacaoInfo.split(", ");
+                    int id = Integer.parseInt(embarcacaoParts[0].split("=")[1]);
+                    String nome = embarcacaoParts[1].split("=")[1];
+                    String marca = embarcacaoParts[2].split("=")[1];
+                    String modelo = embarcacaoParts[3].split("=")[1];
+                    LocalDate dataFabricacao = LocalDate.parse(embarcacaoParts[4].split("=")[1]);
 
-                } else if (line.startsWith("NavioSuporte[")) {
-                    // Processa navios de suporte
-                    String[] parts = line.replace("NavioSuporte[", "").replace("]", "").split(", ");
-                    int id = Integer.parseInt(parts[0].split("=")[1]);
-                    String nome = parts[1].split("=")[1];
-                    String marca = parts[2].split("=")[1];
-                    String modelo = parts[3].split("=")[1];
-                    LocalDate dataFabricacao = LocalDate.parse(parts[4].split("=")[1]);
-                    int capacidadeCarga = Integer.parseInt(parts[5].split("=")[1]);
-                    int numCamas = Integer.parseInt(parts[6].split("=")[1]);
-                    int botes = Integer.parseInt(parts[7].split("=")[1]);
+                    // Metodo auxiliar para ler as partes do motor
+                    Motor motor = LerMotor(motorInfo);
 
-                    NavioSuporte navio = new NavioSuporte(id, nome, marca, modelo, dataFabricacao, new ArrayList<>(), capacidadeCarga, numCamas, botes);
+                    BarcoPatrulha barco = new BarcoPatrulha(id, nome, marca, motor, modelo, dataFabricacao);
+                    embarcacoes.add(barco);
+                    
+                } 
+                else if (line.startsWith("NavioSuporte[")) {
+
+                    String[] parts = line.replace("NavioSuporte[", "").replace("]", "").split(", motores=");
+                    String embarcacaoInfo = parts[0];
+                    String motoresInfo = parts[1].split(", capacidadeCarga=")[0];
+
+                    String[] embarcacaoParts = embarcacaoInfo.split(", ");
+                    int id = Integer.parseInt(embarcacaoParts[0].split("=")[1]);
+                    String nome = embarcacaoParts[1].split("=")[1];
+                    String marca = embarcacaoParts[2].split("=")[1];
+                    String modelo = embarcacaoParts[3].split("=")[1];
+                    LocalDate dataFabricacao = LocalDate.parse(embarcacaoParts[4].split("=")[1]);
+
+                    String[] motoresArray = motoresInfo.split("; ");
+                    ArrayList<Motor> motores = new ArrayList<>();
+                    for (String motorString : motoresArray) {
+                        if (!motorString.isBlank()) {
+                            motores.add(LerMotor(motorString));
+                        }
+                    }
+
+                    String capacidadeCarga = parts[1].split(", numCamas=")[1];
+                    int capacidade = Integer.parseInt(capacidadeCarga.split(",")[0]);
+                    int numCamas = Integer.parseInt(parts[1].split("numCamas=")[1].split(",")[0]);
+                    int botes = Integer.parseInt(parts[1].split("botesSalvaVidas=")[1]);
+
+                    NavioSuporte navio = new NavioSuporte(id, nome, marca, modelo, dataFabricacao, motores, capacidade, numCamas, botes);
                     embarcacoes.add(navio);
 
-                } else if (line.startsWith("LanchaRapida[")) {
-                    // Processa lanchas rápidas
-                    String[] parts = line.replace("LanchaRapida[", "").replace("]", "").split(", ");
-                    int id = Integer.parseInt(parts[0].split("=")[1]);
-                    String nome = parts[1].split("=")[1];
-                    String marca = parts[2].split("=")[1];
-                    String modelo = parts[3].split("=")[1];
-                    LocalDate dataFabricacao = LocalDate.parse(parts[4].split("=")[1]);
+                } 
+                else if (line.startsWith("LanchaRapida[")) {
 
-                    LanchaRapida lancha = new LanchaRapida(id, nome, marca, modelo, dataFabricacao, new ArrayList<>());
+                    String[] parts = line.replace("LanchaRapida[", "").replace("]", "").split(", motores=");
+                    String embarcacaoInfo = parts[0];
+                    String motoresInfo = parts[1];
+
+                    String[] embarcacaoParts = embarcacaoInfo.split(", ");
+                    int id = Integer.parseInt(embarcacaoParts[0].split("=")[1]);
+                    String nome = embarcacaoParts[1].split("=")[1];
+                    String marca = embarcacaoParts[2].split("=")[1];
+                    String modelo = embarcacaoParts[3].split("=")[1];
+                    LocalDate dataFabricacao = LocalDate.parse(embarcacaoParts[4].split("=")[1]);
+
+                    String[] motoresArray = motoresInfo.split("; ");
+                    ArrayList<Motor> motores = new ArrayList<>();
+                    for (String motorString : motoresArray) {
+                        if (!motorString.isBlank()) {
+                            motores.add(LerMotor(motorString));
+                        }
+                    }
+
+                    LanchaRapida lancha = new LanchaRapida(id, nome, marca, modelo, dataFabricacao, motores);
                     embarcacoes.add(lancha);
                 } else {
                     throw new IllegalArgumentException("Tipo desconhecido de embarcação: " + line);
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Erro ao ler o ficheiro: " + e.getMessage());
         }
 
         return embarcacoes;
+    }
+
+    private static Motor LerMotor(String motorInfo) {
+        motorInfo = motorInfo.replace("Motor {", "").replace("}", "").trim();
+        String[] parts = motorInfo.split(", ");
+
+        int potencia = Integer.parseInt(parts[0].split("=")[1].replace(" cv", ""));
+        double cilindrada = Double.parseDouble(parts[1].split("=")[1].replace(" cm³", ""));
+        double fuelTankCapacity = Double.parseDouble(parts[2].split("=")[1].replace(" litros", ""));
+        String combustivel = parts[3].split("=")[1].replace("'", "");
+        int consumo = Integer.parseInt(parts[4].split("=")[1].replace(" L/h", ""));
+
+        return new Motor(potencia, cilindrada, fuelTankCapacity, combustivel, consumo);
     }
 }
