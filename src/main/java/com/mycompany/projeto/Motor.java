@@ -69,11 +69,11 @@ public class Motor {
     @Override
     public String toString() {
         return "Motor {" +
-                "Potência=" + potencia + " cv" +
-                ", Cilindrada=" + cilindrada + " cm³" +
-                ", Capacidade do Tanque=" + fuelTankCapacity + " litros" +
-                ", Combustível='" + combustivel + '\'' +
-                ", Consumo=" + consumo + " L/h" +
+                "potencia=" + potencia +
+                ", cilindrada=" + cilindrada +
+                ", capacidadeTanque=" + fuelTankCapacity + 
+                ", combustivel='" + combustivel +
+                ", consumo=" + consumo +
                 '}';
     }
 }

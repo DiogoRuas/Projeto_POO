@@ -16,7 +16,8 @@ import java.util.ArrayList;
 public class Menu {
 
     private final Scanner scanner = new Scanner(System.in);
-    private List<Integer> existingIDs = new ArrayList<>();
+    private List<Integer> existingMarinheiroIDs = new ArrayList<>();
+    private List<Integer> existingEmbarcacaoIDs = new ArrayList<>();
     private List<Marinheiro> marinheiros = new ArrayList<>();
     private List<Embarcacao> embarcacoes = new ArrayList<>();
 
@@ -101,18 +102,23 @@ public class Menu {
             }
 
             switch (subOption) {
-                case 1 ->
-                    System.out.println("Opcao: Criar Embarcacao");
+                case 1 -> {
+                 Embarcacao novaEmbarcacao = RecolhaInfo.criarEmbarcacao(scanner, embarcacoes, existingEmbarcacaoIDs);
+                if (novaEmbarcacao != null) {
+                    embarcacoes.add(novaEmbarcacao);  
+                    
+                }
+            }
                 case 2 -> {
-                    Marinheiro novoMarinheiro = RecolhaInfo.criarMarinheiro(scanner, existingIDs);
+                    Marinheiro novoMarinheiro = RecolhaInfo.criarMarinheiro(scanner, existingMarinheiroIDs);
                     if (novoMarinheiro != null) {
                         marinheiros.add(novoMarinheiro); // Adiciona o marinheiro à lista
                     }
                 }
                 case 3 ->
-                    System.out.println("Opcao: Remover Embarcacao");
+                    RecolhaInfo.removerEmbarcacao(scanner, embarcacoes);
                 case 4 ->
-                    System.out.println("Opcao: Editar Embarcacao");
+                    RecolhaInfo.removerMarinheiro(scanner, marinheiros);
                 case 5 ->
                     this.marinheiros = RecolhaInfo.LerMarinheiros();
                 case 6 ->
@@ -134,7 +140,7 @@ public class Menu {
             System.out.println("| 1. Iniciar Missao                    |");
             System.out.println("| 2. Info Marinheiros                  |");
             System.out.println("| 3. Info Embarcacoes                  |");
-            System.out.println("| 4. Ver Embarcacoes                   |");
+            System.out.println("| 4. Ver Embarcacoes                   |"); //INFO PORTO
             System.out.println("| 0. Voltar                            |");
             System.out.println("----------------------------------------");
             System.out.print("Escolha uma opcao: ");
@@ -160,7 +166,7 @@ public class Menu {
                 case 2 ->
                     RecolhaInfo.infoMarinheiros(marinheiros, scanner);
                 case 3 ->
-                    RecolhaInfo.infoEmbarcacoes(embarcacoes, scanner);
+                    System.out.println("Opcao: Info embarcacoes");
                 case 4 ->
                     System.out.println("Opcao: Ver Embarcacoes");
                 case 0 ->
