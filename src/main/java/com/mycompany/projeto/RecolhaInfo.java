@@ -50,7 +50,7 @@ public class RecolhaInfo {
                 // Criar o marinheiro usando o construtor
                 Marinheiro novoMarinheiro = new Marinheiro(nome, id, dataNascimento, patente);
                 System.out.println("Marinheiro criado com sucesso:");
-                System.out.println(novoMarinheiro);
+                System.out.println(novoMarinheiro.toString());
 
                 validInput = true; // Se tudo correr bem, marca como válido
                 return novoMarinheiro; // Retorna o marinheiro criado
@@ -164,15 +164,17 @@ public class RecolhaInfo {
         String marca = lerMarca(scanner);
         String modelo = lerModelo(scanner);
         LocalDate dataFabricacao = lerDataFabricacao(scanner);
-        Zona zona = lerZona(scanner);
 
         int tipoEmbarcacao = lerTipoEmbarcacao(scanner);
-
-        Embarcacao novaEmbarcacao;
+        
         switch (tipoEmbarcacao) {
             case 1 -> {
                 Motor motor = lerMotor(scanner);
-                novaEmbarcacao = new BarcoPatrulha(id, nome, marca, motor, modelo, dataFabricacao);
+                BarcoPatrulha novaEmbarcacao = new BarcoPatrulha(id, nome, marca, motor, modelo, dataFabricacao);
+                System.out.println("Embarcacao criada com sucesso:");
+                System.out.printf(novaEmbarcacao.toString() + "\n");
+                
+                return novaEmbarcacao;
             }
             case 2 -> {
                 ArrayList<Motor> motores = new ArrayList<>();
@@ -180,7 +182,11 @@ public class RecolhaInfo {
                 for (int i = 0; i < numMotores; i++) {
                     motores.add(lerMotor(scanner));
                 }
-                novaEmbarcacao = new LanchaRapida(id, nome, marca, modelo, dataFabricacao, motores);
+                LanchaRapida novaEmbarcacao = new LanchaRapida(id, nome, marca, modelo, dataFabricacao, motores);
+                System.out.println("Embarcacao criada com sucesso:");
+                System.out.printf(novaEmbarcacao.toString() + "\n");
+                
+                return novaEmbarcacao;
             }
             case 3 -> {
                 ArrayList<Motor> motores = new ArrayList<>();
@@ -195,22 +201,19 @@ public class RecolhaInfo {
                     } while (motor.getPotencia() <= 25000);
                     motores.add(motor);
                 }
+                
                 int capacidadeCarga = lerCapacidadeCarga(scanner);
                 int numCamas = lerNumCamas(scanner);
                 int botesSalvaVidas = lerBotesSalvaVidas(scanner);
-                novaEmbarcacao = new NavioSuporte(id, nome, marca, modelo, dataFabricacao, motores, capacidadeCarga, numCamas, botesSalvaVidas);
+                NavioSuporte novaEmbarcacao = new NavioSuporte(id, nome, marca, modelo, dataFabricacao, motores, capacidadeCarga, numCamas, botesSalvaVidas);
+                System.out.println("Embarcacao criada com sucesso:");
+                System.out.printf(novaEmbarcacao.toString() + "\n");
+                
+                return novaEmbarcacao;
             }
             default ->
                 throw new IllegalArgumentException("Tipo de embarcacao invalido.");
         }
-        novaEmbarcacao.setZona(zona);
-        System.out.println("Embarcacao criada com sucesso:");
-        System.out.printf("Embarcacao[id=%d, nome=%s, marca=%s, modelo=%s, dataFabricacao=%s, inMissao=%b]%n",
-                novaEmbarcacao.getId(), novaEmbarcacao.getNome(),
-                novaEmbarcacao.getMarca(), novaEmbarcacao.getModelo(),
-                novaEmbarcacao.getDataFabricacao(), novaEmbarcacao.isInMissao());
-
-        return novaEmbarcacao;
     }
 
     private static Motor lerMotor(Scanner scanner) {
@@ -495,7 +498,7 @@ public class RecolhaInfo {
     }
 
     // FILE READING
-    public static List<Marinheiro> LerMarinheiros() {
+    public static List<Marinheiro> LerFicheiroMarinheiros() {
 
         Scanner scanner = new Scanner(System.in);
         List<Marinheiro> marinheiros = new ArrayList<>();
@@ -527,7 +530,7 @@ public class RecolhaInfo {
         return marinheiros;
     }
 
-    public static List<Embarcacao> LerEmbarcacoes() {
+    public static List<Embarcacao> LerFicheiroEmbarcacoes() {
         Scanner scanner = new Scanner(System.in);
         List<Embarcacao> embarcacoes = new ArrayList<>();
 
@@ -557,7 +560,6 @@ public class RecolhaInfo {
 
                     if (line.startsWith("BarcoPatrulha[")) {
                         Motor motor = parseMotor(motorInfo.replace("motor=", ""));
-                        System.out.println(motor.toString());
                         BarcoPatrulha barcoPatrulha = new BarcoPatrulha(id, nome, marca, motor, modelo, dataFabricacao);
                         embarcacoes.add(barcoPatrulha);
                     } else if (line.startsWith("LanchaRapida[")) {
