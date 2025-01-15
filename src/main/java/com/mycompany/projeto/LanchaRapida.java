@@ -80,4 +80,9 @@ class LanchaRapida extends Embarcacao {
         
         System.out.println("Lancha rapida " + "'" + this.nome + "': Terminei a missao de captura");
     }
+    
+    @Override
+    public String toString() {
+        return "LanchaRapida[" + super.toString() + "]";
+    }
 }

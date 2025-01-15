@@ -41,7 +41,7 @@ public class RadarSimples implements Radar {
     @Override
     public ArrayList<Embarcacao> detectarEmbarcacoes(ArrayList<Embarcacao> todasEmbarcacoes, Zona zona) {
         if (!isOn) {
-            System.out.println("Radar está desligado. Nenhuma informação disponível.");
+            System.out.println("Radar esta desligado. Nenhuma informação disponivel.");
             return null;
         }
         
@@ -51,15 +51,15 @@ public class RadarSimples implements Radar {
                 embarcacoesDetectadas.add(e);
             }
         }
-        System.out.println("Embarcações detectadas na zona " + zona + ": " + embarcacoesDetectadas.size());
+        System.out.println("Embarcacoes detectadas na zona " + zona + ": " + embarcacoesDetectadas.size());
         return embarcacoesDetectadas;
     }
     
     @Override
     public void exibirInformacoesDeteccoes() {
-        System.out.println("Embarcações detectadas:");
+        System.out.println("Embarcacoes detectadas:");
         for (Embarcacao e : embarcacoesDetectadas) {
-            e.toString();
+            System.out.println(e.toString());
         }
     }
 }

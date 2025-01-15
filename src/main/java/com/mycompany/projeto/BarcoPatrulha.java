@@ -73,4 +73,9 @@ class BarcoPatrulha extends Embarcacao {
         
         System.out.println("Lancha rapida " + "'" + this.nome + "': Terminei a missao de captura");
     }
+    
+    @Override
+    public String toString() {
+        return "BarcoPatrulha[" + super.toString() + "]";
+    }
 }

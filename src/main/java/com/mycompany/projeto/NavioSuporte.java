@@ -48,8 +48,8 @@ class NavioSuporte extends Embarcacao {
             throw new IllegalArgumentException("Navio Suporte: Ja esta em missao");
         }
         
-        if (tripulacao.size() < 2 || tripulacao.size() > 4) {
-            throw new IllegalArgumentException("Navio Suporte: Quantidade invalida de motores para. Tem de ter 2 a 4");
+        if (tripulacao.size() < 4 || tripulacao.size() > 10) {
+            throw new IllegalArgumentException("Navio Suporte: Quantidade invalida de motores para. Tem de ter 4 a 10");
         }
         
         boolean hasSargento = false;
@@ -100,7 +100,7 @@ class NavioSuporte extends Embarcacao {
         System.out.println("Navio Suporte " + "'" + this.nome + "': Terminei a missao de Suporte");
     }
     
-    public void ativaRadar(ArrayList<Embarcacao> todasEmbarcacoes) {
+    public void ativarRadar(ArrayList<Embarcacao> todasEmbarcacoes) {
         if (!this.inMissao) {
             throw new IllegalStateException("Navio Suporte: O radar só pode ser ativado durante uma missão.");
         }
@@ -110,7 +110,11 @@ class NavioSuporte extends Embarcacao {
 
         this.radar.ligar();
         ArrayList<Embarcacao> detectadas = radar.detectarEmbarcacoes(todasEmbarcacoes, this.zona);
-        System.out.println("Radar ativado e operando. Embarcações detectadas: " + detectadas.size());
         this.radar.exibirInformacoesDeteccoes();
+    }
+    
+    @Override
+    public String toString() {
+        return "NavioSuporte[" + super.toString() + ", capacidadeCarga=" + capacidadeCarga + ", numCamas=" + numCamas + ", botes=" + botesSalvaVidas + "]";
     }
 }

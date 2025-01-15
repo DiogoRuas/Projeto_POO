@@ -88,6 +88,6 @@ public class Marinheiro {
     // METODOS
     @Override
     public String toString() {
-        return "Marinheiro[" + "id=" + id + ", nome=" + nome + ", idade=" + this.getIdade() + ", patente=" + patente + ", inMissao=" + inMissao + "]";
+        return "Marinheiro[" + "id=" + id + ", nome=" + nome + ", dataNascimento=" + this.dataNascimento + ", idade=" + this.getIdade() + ", patente=" + patente + ", inMissao=" + inMissao + "]";
     }
 }
