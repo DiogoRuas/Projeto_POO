@@ -123,6 +123,7 @@ class NavioSuporte extends Embarcacao {
                 + ", capacidadeCarga=" + capacidadeCarga + " kg"
                 + ", numCamas=" + numCamas
                 + ", botesSalvaVidas=" + botesSalvaVidas + "]"
-                + ", motores=" + motoresInfo;
+                + ", motores=" + motoresInfo
+                + "]";
     }
 }

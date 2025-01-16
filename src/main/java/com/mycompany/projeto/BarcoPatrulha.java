@@ -32,7 +32,7 @@ class BarcoPatrulha extends Embarcacao {
         }
 
         if (tripulacao.size() < 2 || tripulacao.size() > 4) {
-            throw new IllegalArgumentException("Barco de Patrulha: Quantidade invalida de motores para. Tem de ter 2 a 4");
+            throw new IllegalArgumentException("Barco de Patrulha: Quantidade invalida de marinheiros. Tem de ter 2 a 4");
         }
 
         int contadorOficiais = 0;
@@ -92,7 +92,7 @@ class BarcoPatrulha extends Embarcacao {
 
     @Override
     public String toString() {
-        return "BarcoPatrulha[" + super.toString() + ", motor=" + motor.toString() + "]";
+        return "BarcoPatrulha[" + super.toString() + "]" + ", motor=" + motor.toString() + "]";
     }
 
 }

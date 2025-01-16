@@ -206,7 +206,7 @@ public class Menu {
 
             switch (subOption) {
                 case 1 -> {
-                    RecolhaInfo.GuardarInfo(porto.getMarinherios(), porto.getEmbarcacoes());
+                    RecolhaInfo.GuardarInfo(scanner, porto.getMarinherios(), porto.getEmbarcacoes());
                     System.exit(0);
                 }
                 case 2 ->

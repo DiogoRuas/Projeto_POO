@@ -87,6 +87,6 @@ class LanchaRapida extends Embarcacao {
         for (Motor m : motores) {
             motoresInfo += m.toString()+ "; ";
         }
-        return "LanchaRapida[" + super.toString() + ", motores=" + motoresInfo + "]";
+        return "LanchaRapida[" + super.toString() + "]" +  ", motores=" + motoresInfo + "]";
     }
 }

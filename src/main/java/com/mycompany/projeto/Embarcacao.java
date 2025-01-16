@@ -86,6 +86,6 @@ abstract class Embarcacao {
       
     @Override
     public String toString() {
-        return "Embarcacao[" + "id=" + id + ", nome=" + nome + ", marca=" + marca + ", modelo=" + modelo + ", dataFabricacao=" + dataFabricacao + "]";
+        return "Embarcacao[" + "id=" + id + ", nome=" + nome + ", marca=" + marca + ", modelo=" + modelo + ", dataFabricacao=" + dataFabricacao;
     }
 }
