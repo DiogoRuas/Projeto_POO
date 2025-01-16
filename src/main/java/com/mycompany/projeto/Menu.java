@@ -137,9 +137,10 @@ public class Menu {
             System.out.println("|           MODO UTILIZACAO            |");
             System.out.println("----------------------------------------");
             System.out.println("| 1. Iniciar Missao                    |");
-            System.out.println("| 2. Info Marinheiros                  |");
-            System.out.println("| 3. Info Embarcacoes                  |");
-            System.out.println("| 4. Ver Embarcacoes                   |"); //INFO PORTO
+            System.out.println("| 2. Terminar Missao                   |");
+            System.out.println("| 3. Info Marinheiros                  |");
+            System.out.println("| 4. Info Embarcacoes                  |");
+            System.out.println("| 5. Ver Embarcacoes                   |"); //INFO PORTO
             System.out.println("| 0. Voltar                            |");
             System.out.println("----------------------------------------");
             System.out.print("Escolha uma opcao: ");
@@ -163,11 +164,13 @@ public class Menu {
                 case 1 ->
                     RecolhaInfo.iniciarMissao(scanner, porto);
                 case 2 ->
-                    RecolhaInfo.infoMarinheiros(porto.getMarinherios(), scanner);
+                    RecolhaInfo.terminarMissao(scanner, porto);
                 case 3 ->
-                    RecolhaInfo.infoEmbarcacoes(porto.getEmbarcacoes(), scanner);
+                    RecolhaInfo.infoMarinheiros(porto.getMarinherios(), scanner);
                 case 4 ->
-                    System.out.println("Opcao: Ver Embarcacoes");
+                    RecolhaInfo.infoEmbarcacoes(porto.getEmbarcacoes(), scanner);
+                case 5 ->
+                    System.out.println("Opcao: ver embarcacoes");
                 case 0 ->
                     System.out.println("Voltando ao menu principal...");
                 default ->
