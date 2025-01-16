@@ -468,14 +468,104 @@ public class RecolhaInfo {
         }
     }
     
-    public static void iniciarMissao(Scanner scanner, Zona zona, Porto porto){
-        System.out.println("Embarcacoes atracadas (disponiveis): ");
+    public static void iniciarMissao(Scanner scanner, Porto porto) {
+        if (porto.getEmbarcacoes().isEmpty()) {
+            System.out.println("Nao ha embarcacoes disponíveis no porto para iniciar uma missão.");
+            return;
+        }
+
+        if (porto.getMarinherios().isEmpty()) {
+            System.out.println("Nao ha marinheiros disponíveis no porto para iniciar uma missão.");
+            return;
+        }
+
+        // Exibir embarcações disponíveis
+        System.out.println("\n--- Embarcacoes disponiveis ---");
         for (int i = 0; i < porto.getEmbarcacoes().size(); i++) {
-            Embarcacao e = porto.getEmbarcacoes().get(i);
-            System.out.printf("%d: ID: %d - %s - %s - %s%n", i + 1, e.getId(), e.getNome(), e.getMarca(), e.getModelo());
+            Embarcacao embarcacao = porto.getEmbarcacoes().get(i);
+            if (!embarcacao.isInMissao()) {
+                System.out.printf("%d:" + embarcacao.toString() + "\n", i);
+            }
+        }
+
+        // Escolher uma embarcação
+        System.out.print("\nEscolha o número da embarcacao para iniciar a missão: ");
+        int embarcacaoIndex = scanner.nextInt() - 1;
+        scanner.nextLine(); // Consumir nova linha
+
+        if (embarcacaoIndex < 0 || embarcacaoIndex >= porto.getEmbarcacoes().size()) {
+            System.out.println("Opção inválida. Cancelando a operação.");
+            return;
+        }
+
+        Embarcacao embarcacaoSelecionada = porto.getEmbarcacoes().get(embarcacaoIndex);
+
+        if (embarcacaoSelecionada.isInMissao()) {
+            System.out.println("A embarcação já está em missão. Escolha outra.");
+            return;
+        }
+
+        // Exibir marinheiros disponíveis
+        ArrayList<Marinheiro> marinheirosDisponiveis = new ArrayList<>();
+        System.out.println("\n--- Marinheiros disponíveis ---");
+        for (int i = 0; i < porto.getMarinherios().size(); i++) {
+            Marinheiro marinheiro = porto.getMarinherios().get(i);
+            if (!marinheiro.isInMissao()) {
+                marinheirosDisponiveis.add(marinheiro);
+                System.out.printf("%d: " + marinheiro.toString() + "\n", i);
+            }
+        }
+
+        if (marinheirosDisponiveis.isEmpty()) {
+            System.out.println("Nao ha marinheiros disponiveis para formar uma tripulacao.");
+            return;
+        }
+
+        // Selecionar tripulação
+        System.out.print("\nEscolha os IDs dos marinheiros para formar a tripulação (separados por vírgula): ");
+        String[] idsSelecionados = scanner.nextLine().split(",");
+        ArrayList<Marinheiro> tripulacao = new ArrayList<>();
+
+        for (String idStr : idsSelecionados) {
+            try {
+                int id = Integer.parseInt(idStr.trim());
+                Marinheiro marinheiro = null;
+
+                // Loop simples para procurar o marinheiro com o ID especificado
+                for (Marinheiro m : marinheirosDisponiveis) {
+                    if (m.getId() == id) {
+                        marinheiro = m;
+                        break;
+                    }
+                }
+
+                if (marinheiro != null) {
+                    tripulacao.add(marinheiro);
+                } else {
+                    System.out.printf("ID inválido: %d%n", id);
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Entrada inválida para ID. Cancelando a operação.");
+                return;
+            }
+        }
+
+        try {
+            // Escolher a zona da missão
+            System.out.println("\nZonas disponíveis: NORTE, SUL, ESTE, OESTE");
+            System.out.print("Escolha a zona para a missão: ");
+            Zona zonaMissao = Zona.valueOf(scanner.nextLine().trim().toUpperCase());
+
+            // Iniciar missão
+            embarcacaoSelecionada.ativarMissao(zonaMissao, tripulacao);
+            porto.lancarMissao(embarcacaoSelecionada, tripulacao, zonaMissao);
+            System.out.println("Missão iniciada com sucesso!");
+
+        } catch (IllegalArgumentException e) {
+            System.out.println("Erro ao iniciar missão: " + e.getMessage());
         }
     }
-    
+
     // FILE WRITING
     public static void GuardarInfo(List<Marinheiro> marinheiros, List<Embarcacao> embarcacoes) {
         if (marinheiros.isEmpty() && embarcacoes.isEmpty()) {

@@ -161,7 +161,7 @@ public class Menu {
 
             switch (subOption) {
                 case 1 ->
-                    System.out.println("Opcao: Iniciar Missao");
+                    RecolhaInfo.iniciarMissao(scanner, porto);
                 case 2 ->
                     RecolhaInfo.infoMarinheiros(porto.getMarinherios(), scanner);
                 case 3 ->
