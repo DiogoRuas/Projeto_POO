@@ -12,14 +12,16 @@ import java.util.ArrayList;
  */
 public class Porto {
     
-    private ArrayList <Embarcacao> EmbarcacoesAtracadas;
+    private ArrayList <Embarcacao> embarcacoes;
+    private ArrayList <Marinheiro> marinheiros;
     private String nome;
     private int numTotalMissoes;
     private RadarSimples radar;
     private Zona zonaAssociada;
 
     public Porto(String nome) {
-        this.EmbarcacoesAtracadas = new ArrayList <Embarcacao>();
+        this.embarcacoes = new ArrayList <Embarcacao>();
+        this.marinheiros = new ArrayList <Marinheiro>();
         this.nome = nome;
         this.numTotalMissoes = 0;
         this.radar = new RadarSimples();
@@ -33,23 +35,58 @@ public class Porto {
     public int getNumTotalMissoes() {
         return numTotalMissoes;
     }
+
+    public ArrayList<Embarcacao> getEmbarcacoes() {
+        return embarcacoes;
+    }
+
+    public ArrayList<Marinheiro> getMarinherios() {
+        return marinheiros;
+    }
+
+    public Zona getZonaAssociada() {
+        return zonaAssociada;
+    }
     
     public void showListaDeEmbarcacoes(){
-        for (Embarcacao embarcacao: EmbarcacoesAtracadas){
+        for (Embarcacao embarcacao: embarcacoes){
             embarcacao.toString();
         }
     }
+
+    public void setEmbarcacoes(ArrayList<Embarcacao> embarcacoes) {
+        this.embarcacoes = embarcacoes;
+    }
+
+    public void setMarinherios(ArrayList<Marinheiro> marinherios) {
+        this.marinheiros = marinherios;
+    }
+    
+    
+    public void adicionarEmbarcacao(Embarcacao embarcacao){
+        if (embarcacao == null){
+            throw new IllegalStateException("Porto: A embarcacao nao pode ter valor null");
+        }
+        this.embarcacoes.add(embarcacao);
+    }
+    
+    public void adicionarMarinheiro(Marinheiro marinheiro){
+        if (marinheiro == null){
+            throw new IllegalStateException("Porto: A embarcacao nao pode ter valor null");
+        }
+        this.marinheiros.add(marinheiro);
+    }
     
     public void lancarMissao(Embarcacao embarcacao, ArrayList<Marinheiro> tripulacao, Zona zona){
-        if(!this.EmbarcacoesAtracadas.contains(embarcacao)){
-            throw new IllegalStateException("Porto: A embarcacao nao esta atracada");
+        if(!this.embarcacoes.contains(embarcacao)){
+            throw new IllegalStateException("Porto: A embarcacao esta em missao");
         }
         embarcacao.ativarMissao(zona, tripulacao);
         this.numTotalMissoes += 1;
     }
     
     public void terminarMissao(Embarcacao embarcacao){
-        if(this.EmbarcacoesAtracadas.contains(embarcacao)){
+        if(this.embarcacoes.contains(embarcacao)){
             throw new IllegalStateException("Porto: A embarcacao esta atracada");
         }
         embarcacao.terminarMissao();

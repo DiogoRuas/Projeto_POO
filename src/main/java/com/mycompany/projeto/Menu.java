@@ -18,8 +18,7 @@ public class Menu {
     private final Scanner scanner = new Scanner(System.in);
     private List<Integer> existingMarinheiroIDs = new ArrayList<>();
     private List<Integer> existingEmbarcacaoIDs = new ArrayList<>();
-    private List<Marinheiro> marinheiros = new ArrayList<>();
-    private List<Embarcacao> embarcacoes = new ArrayList<>();
+    private Porto porto = new Porto("Porto Nautilus");
 
     public Menu() {
     }
@@ -103,26 +102,26 @@ public class Menu {
 
             switch (subOption) {
                 case 1 -> {
-                 Embarcacao novaEmbarcacao = RecolhaInfo.criarEmbarcacao(scanner, embarcacoes, existingEmbarcacaoIDs);
+                 Embarcacao novaEmbarcacao = RecolhaInfo.criarEmbarcacao(scanner, porto.getEmbarcacoes(), existingEmbarcacaoIDs);
                 if (novaEmbarcacao != null) {
-                    embarcacoes.add(novaEmbarcacao);  
-                    
+                    porto.adicionarEmbarcacao(novaEmbarcacao);
                 }
             }
                 case 2 -> {
                     Marinheiro novoMarinheiro = RecolhaInfo.criarMarinheiro(scanner, existingMarinheiroIDs);
                     if (novoMarinheiro != null) {
-                        marinheiros.add(novoMarinheiro); // Adiciona o marinheiro à lista
+                        porto.adicionarMarinheiro(novoMarinheiro);
                     }
                 }
                 case 3 ->
-                    RecolhaInfo.removerEmbarcacao(scanner, embarcacoes);
+                    RecolhaInfo.removerEmbarcacao(scanner, porto.getEmbarcacoes());
                 case 4 ->
-                    RecolhaInfo.removerMarinheiro(scanner, marinheiros);
+                    RecolhaInfo.removerMarinheiro(scanner, porto.getMarinherios());
                 case 5 ->
-                    this.marinheiros = RecolhaInfo.LerMarinheiros();
-                case 6 ->
-                    this.embarcacoes = RecolhaInfo.LerEmbarcacoes();
+                    porto.setMarinherios(RecolhaInfo.LerFicheiroMarinheiros());
+                case 6 ->{
+                    porto.setEmbarcacoes(RecolhaInfo.LerFicheiroEmbarcacoes());
+                }
                 case 0 ->
                     System.out.println("Voltando ao menu principal...");
                 default ->
@@ -164,9 +163,9 @@ public class Menu {
                 case 1 ->
                     System.out.println("Opcao: Iniciar Missao");
                 case 2 ->
-                    RecolhaInfo.infoMarinheiros(marinheiros, scanner);
+                    RecolhaInfo.infoMarinheiros(porto.getMarinherios(), scanner);
                 case 3 ->
-                    System.out.println("Opcao: Info embarcacoes");
+                    RecolhaInfo.infoEmbarcacoes(porto.getEmbarcacoes(), scanner);
                 case 4 ->
                     System.out.println("Opcao: Ver Embarcacoes");
                 case 0 ->
@@ -207,7 +206,7 @@ public class Menu {
 
             switch (subOption) {
                 case 1 -> {
-                    RecolhaInfo.GuardarInfo(marinheiros, embarcacoes);
+                    RecolhaInfo.GuardarInfo(porto.getMarinherios(), porto.getEmbarcacoes());
                     System.exit(0);
                 }
                 case 2 ->

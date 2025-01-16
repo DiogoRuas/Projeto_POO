@@ -468,6 +468,14 @@ public class RecolhaInfo {
         }
     }
     
+    public static void iniciarMissao(Scanner scanner, Zona zona, Porto porto){
+        System.out.println("Embarcacoes atracadas (disponiveis): ");
+        for (int i = 0; i < porto.getEmbarcacoes().size(); i++) {
+            Embarcacao e = porto.getEmbarcacoes().get(i);
+            System.out.printf("%d: ID: %d - %s - %s - %s%n", i + 1, e.getId(), e.getNome(), e.getMarca(), e.getModelo());
+        }
+    }
+    
     // FILE WRITING
     public static void GuardarInfo(List<Marinheiro> marinheiros, List<Embarcacao> embarcacoes) {
         if (marinheiros.isEmpty() && embarcacoes.isEmpty()) {
@@ -498,10 +506,10 @@ public class RecolhaInfo {
     }
 
     // FILE READING
-    public static List<Marinheiro> LerFicheiroMarinheiros() {
+    public static ArrayList<Marinheiro> LerFicheiroMarinheiros() {
 
         Scanner scanner = new Scanner(System.in);
-        List<Marinheiro> marinheiros = new ArrayList<>();
+        ArrayList<Marinheiro> marinheiros = new ArrayList<>();
 
         System.out.print("Insira o nome do ficheiro para ler os marinheiros: ");
         String filePath = scanner.nextLine();
@@ -530,9 +538,9 @@ public class RecolhaInfo {
         return marinheiros;
     }
 
-    public static List<Embarcacao> LerFicheiroEmbarcacoes() {
+    public static ArrayList<Embarcacao> LerFicheiroEmbarcacoes() {
         Scanner scanner = new Scanner(System.in);
-        List<Embarcacao> embarcacoes = new ArrayList<>();
+        ArrayList<Embarcacao> embarcacoes = new ArrayList<>();
 
         System.out.print("Insira o nome do ficheiro para ler as embarcacoes: ");
         String filePath = scanner.nextLine();
