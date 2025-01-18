@@ -156,6 +156,94 @@ public class RecolhaInfo {
         }
     }
 
+    public static void verembarcacoes(List<Embarcacao> embarcacoes, Scanner scanner) {
+        if (embarcacoes.isEmpty()) {
+            System.out.println("Nao ha embarcacoes registradas.");
+            return;
+        }
+
+        Map<Zona, List<Embarcacao>> embarcacoesPorZona = new HashMap<>();
+        for (Zona zona : Zona.values()) {
+            embarcacoesPorZona.put(zona, new ArrayList<>());
+        }
+
+        for (Embarcacao e : embarcacoes) {
+            embarcacoesPorZona.get(e.getZona()).add(e);
+        }
+
+        String ordemAtual = "Ordenado por ID (crescente)";
+
+        int opcao;
+        do {
+            System.out.println("\nDeseja ordenar por:");
+            System.out.println("1. ID (crescente)");
+            System.out.println("2. Marca (crescente)");
+            System.out.println("3. Ano de fabricação (decrescente)");
+            System.out.println("0. Sair");
+            System.out.print("Escolha uma opção: ");
+
+            opcao = scanner.nextInt();
+            scanner.nextLine(); // Consumir nova linha
+
+            switch (opcao) {
+                case 1 -> {
+                    ordemAtual = "Ordenado por ID (crescente)";
+                    for (List<Embarcacao> lista : embarcacoesPorZona.values()) {
+                        Collections.sort(lista, Comparator.comparingInt(Embarcacao::getId));
+                    }
+                }
+                case 2 -> {
+                    ordemAtual = "Ordenado por Marca (crescente)";
+                    for (List<Embarcacao> lista : embarcacoesPorZona.values()) {
+                        Collections.sort(lista, Comparator.comparing(Embarcacao::getMarca));
+                    }
+                }
+                case 3 -> {
+                    ordemAtual = "Ordenado por Ano de fabricacao (decrescente)";
+                    for (List<Embarcacao> lista : embarcacoesPorZona.values()) {
+                        Collections.sort(lista, Comparator.comparing(Embarcacao::getDataFabricacao).reversed());
+                    }
+                }
+                case 0 ->
+                    System.out.println("Saindo...");
+                default ->
+                    System.out.println("Opcao invalida!");
+            }
+
+            if (opcao != 0) {
+                mostrarEmbarcacoesPorZona(embarcacoes, ordemAtual);
+            }
+        } while (opcao != 0);
+    }
+
+    private static void mostrarEmbarcacoesPorZona(List<Embarcacao> embarcacoes, String ordemAtual) {
+        System.out.println("\n--- Embarcacoes disponiveis ---");
+        System.out.println(ordemAtual);
+
+        Map<Zona, List<Embarcacao>> embarcacoesPorZona = new HashMap<>();
+        for (Zona zona : Zona.values()) {
+            embarcacoesPorZona.put(zona, new ArrayList<>());
+        }
+
+        for (Embarcacao e : embarcacoes) {
+            embarcacoesPorZona.get(e.getZona()).add(e);
+        }
+
+        for (Zona zona : Zona.values()) {
+            System.out.println("\nZONA " + zona + ":");
+            List<Embarcacao> embarcacoesNaZona = embarcacoesPorZona.get(zona);
+            if (embarcacoesNaZona.isEmpty()) {
+                System.out.println("- SEM REGISTO");
+            } else {
+                for (int i = 0; i < embarcacoesNaZona.size(); i++) {
+                    Embarcacao embarcacao = embarcacoesNaZona.get(i);
+                    String status = embarcacao.isInMissao() ? " (Em missao)" : " (Disponivel)";
+                    System.out.printf("%d: %s%s\n", i + 1, embarcacao.toString(), status);
+                }
+            }
+        }
+    }
+    
     public static Embarcacao criarEmbarcacao(Scanner scanner, List<Embarcacao> embarcacoes, List<Integer> existingIDs) {
         System.out.println("Criar Embarcacao");
         int id = GenerateID.randomUniqueID(1, 1000, existingIDs);
@@ -407,38 +495,44 @@ public class RecolhaInfo {
             return;
         }
 
-        // Agrupar embarcações por zona
         Map<Zona, List<Embarcacao>> embarcacoesPorZona = new HashMap<>();
-        for (Embarcacao e : embarcacoes) {
-            embarcacoesPorZona.computeIfAbsent(e.getZona(), k -> new ArrayList<>()).add(e);
+        for (Zona zona : Zona.values()) {
+            embarcacoesPorZona.put(zona, new ArrayList<>());
         }
 
-        // Exibir as embarcações organizadas por zona e ordenadas por ID
+        for (Embarcacao e : embarcacoes) {
+            embarcacoesPorZona.get(e.getZona()).add(e);
+        }
+
+        System.out.println("\n--- Embarcacoes disponiveis para remocao ---");
+        int totalIndex = 0;
+        Map<Integer, Embarcacao> indexMap = new HashMap<>();
+
         for (Zona zona : Zona.values()) {
-            List<Embarcacao> listaEmbarcacoes = embarcacoesPorZona.get(zona);
-            System.out.println("Zona " + zona + ":");
-            if (listaEmbarcacoes == null || listaEmbarcacoes.isEmpty()) {
-                System.out.println("- Sem registo");
+            System.out.println("\nZONA " + zona + ":");
+            List<Embarcacao> embarcacoesNaZona = embarcacoesPorZona.get(zona);
+            if (embarcacoesNaZona.isEmpty()) {
+                System.out.println("- SEM REGISTO");
             } else {
-                // Ordenar a lista de embarcações por ID
-                listaEmbarcacoes.sort(Comparator.comparingInt(Embarcacao::getId));
-                for (int i = 0; i < listaEmbarcacoes.size(); i++) {
-                    Embarcacao e = listaEmbarcacoes.get(i);
-                    System.out.printf("%d: ID: %d - %s - %s - %s%n", i + 1, e.getId(), e.getNome(), e.getMarca(), e.getModelo());
+                Collections.sort(embarcacoesNaZona, Comparator.comparingInt(Embarcacao::getId));
+                for (Embarcacao e : embarcacoesNaZona) {
+                    totalIndex++;
+                    System.out.printf("%d: ID: %d - %s - %s - %s%n", totalIndex, e.getId(), e.getNome(), e.getMarca(), e.getModelo());
+                    indexMap.put(totalIndex, e);
                 }
             }
         }
 
         System.out.print("Escolha o numero da embarcacao que deseja remover: ");
-        int index = scanner.nextInt() - 1; // ajusta o indice
-        scanner.nextLine();
+        int escolha = scanner.nextInt();
+        scanner.nextLine(); // Consumir nova linha
 
-        // verifica se o indice está correto e remove a embarcação
-        if (index >= 0 && index < embarcacoes.size()) {
-            Embarcacao removedEmbarcacao = embarcacoes.remove(index);
+        if (indexMap.containsKey(escolha)) {
+            Embarcacao removedEmbarcacao = indexMap.get(escolha);
+            embarcacoes.remove(removedEmbarcacao);
             System.out.printf("Embarcacao '%s' removida com sucesso.%n", removedEmbarcacao.getNome());
         } else {
-            System.out.println("Indice invalido! Nenhuma embarcacao foi removida.");
+            System.out.println("Numero invalido! Nenhuma embarcacao foi removida.");
         }
     }
 
