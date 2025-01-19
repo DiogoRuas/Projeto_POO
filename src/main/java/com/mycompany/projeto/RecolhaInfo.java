@@ -73,7 +73,7 @@ public class RecolhaInfo {
         }
 
         // Exibe a lista de marinheiros inicialmente ordenada por nome crescente
-        Collections.sort(marinheiros, Comparator.comparing(Marinheiro::getNome)); // Ordena por nome inicialmente
+        Collections.sort(marinheiros, Comparator.comparing(m -> m.getNome(), String.CASE_INSENSITIVE_ORDER)); // Ordena por nome inicialmente
         System.out.println("\n--- Lista de Marinheiros ---");
         for (Marinheiro m : marinheiros) {
             System.out.println(m);
@@ -116,7 +116,7 @@ public class RecolhaInfo {
                     }
                     case 3 -> {
                         if (!ordemAtual.equals("Ordenado por nome (crescente)")) {
-                            Collections.sort(marinheiros, Comparator.comparing(Marinheiro::getNome));
+                            Collections.sort(marinheiros, Comparator.comparing(m -> m.getNome(), String.CASE_INSENSITIVE_ORDER));
                             ordemAtual = "Ordenado por nome (crescente)";
                         } else {
                             System.out.println("Ja esta ordenado por nome (crescente).");
