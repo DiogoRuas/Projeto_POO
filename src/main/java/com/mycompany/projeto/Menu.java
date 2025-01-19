@@ -170,7 +170,7 @@ public class Menu {
                 case 4 ->
                     RecolhaInfo.infoEmbarcacoes(porto.getEmbarcacoes(), scanner);
                 case 5 ->
-                    System.out.println("Opcao: ver embarcacoes");
+                    RecolhaInfo.ativarRadarEExibir(porto);
                 case 0 ->
                     System.out.println("Voltando ao menu principal...");
                 default ->

@@ -101,6 +101,24 @@ public class Porto {
         
         ArrayList<Embarcacao> detectadasNoPorto = radar.detectarEmbarcacoes(todasEmbarcacoes, Zona.INDEF);
         ArrayList<Embarcacao> detectadasNaZonaAssociada = radar.detectarEmbarcacoes(todasEmbarcacoes, this.zonaAssociada);
+        
         this.radar.exibirInformacoesDeteccoes();
+    }
+    
+    public void exibirInformacoesRadar() {
+        if (!radar.isOn()) {
+            System.out.println("Radar está desligado.");
+            return;
+        }
+
+        ArrayList<Embarcacao> detectadas = radar.getEmbarcacoesDetectadas();
+        if (detectadas.isEmpty()) {
+            System.out.println("Nenhuma embarcação detectada.");
+        } else {
+            System.out.println("Embarcações detectadas:");
+            for (Embarcacao embarcacao : detectadas) {
+                System.out.println(embarcacao);
+            }
+        }
     }
 }

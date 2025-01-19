@@ -900,4 +900,38 @@ public class RecolhaInfo {
         }
         return motores;
     }
+    
+   public static void ativarRadarEExibir(Porto porto) {
+        if (porto == null) {
+            System.out.println("Porto inválido.");
+            return;
+        }
+
+        System.out.println("Ativando radar...");
+
+        // Ativa o radar e coleta informações
+        porto.ativarRadar(porto.getEmbarcacoes());
+
+        // Exibe as informações coletadas
+        System.out.println("Informações das embarcações detectadas:");
+       
+    }
+       
+    public static void ativarRadarDoMenu(Scanner scanner, Porto porto) {
+        if (porto == null || scanner == null) {
+            System.out.println("Entrada inválida.");
+            return;
+        }
+
+        System.out.println("Deseja ativar o radar e visualizar as informações? (S/N)");
+        String opcao = scanner.nextLine().trim().toUpperCase();
+
+        if ("S".equals(opcao)) {
+            ativarRadarEExibir(porto);
+        } else {
+            System.out.println("Operação cancelada pelo usuário.");
+        }
+    }
 }
+   
+

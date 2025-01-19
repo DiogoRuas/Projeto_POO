@@ -37,6 +37,10 @@ public class RadarSimples implements Radar {
     public boolean isOn() {
         return this.isOn;
     }
+
+    public ArrayList<Embarcacao> getEmbarcacoesDetectadas() {
+        return embarcacoesDetectadas;
+    }
     
     @Override
     public ArrayList<Embarcacao> detectarEmbarcacoes(ArrayList<Embarcacao> todasEmbarcacoes, Zona zona) {
