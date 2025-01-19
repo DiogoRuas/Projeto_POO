@@ -140,7 +140,7 @@ public class Menu {
             System.out.println("| 2. Terminar Missao                   |");
             System.out.println("| 3. Info Marinheiros                  |");
             System.out.println("| 4. Info Embarcacoes                  |");
-            System.out.println("| 5. Ver Embarcacoes                   |"); //INFO PORTO
+            System.out.println("| 5. Ver Embarcacoes no Porto          |"); 
             System.out.println("| 0. Voltar                            |");
             System.out.println("----------------------------------------");
             System.out.print("Escolha uma opcao: ");
