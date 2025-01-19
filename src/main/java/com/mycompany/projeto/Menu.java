@@ -32,6 +32,7 @@ public class Menu {
             System.out.println("----------------------------------------");
             System.out.println("| 1. Modo Manutencao                   |");
             System.out.println("| 2. Modo Utilizacao                   |");
+            System.out.println("| 3. RECOVER                           |");
             System.out.println("| 0. Sair                              |");
             System.out.println("----------------------------------------");
             System.out.print("Escolha uma opcao: ");
@@ -57,6 +58,11 @@ public class Menu {
 
                 case 2 ->
                     showUsageMenu();
+                    
+                case 3 -> {
+                    porto.setMarinherios(RecolhaInfo.LerFicheiroMarinheiros());
+                    porto.setEmbarcacoes(RecolhaInfo.LerFicheiroEmbarcacoes());
+                }
 
                 case 0 -> {
                     showFileMenu();
@@ -168,9 +174,9 @@ public class Menu {
                 case 3 ->
                     RecolhaInfo.infoMarinheiros(porto.getMarinherios(), scanner);
                 case 4 ->
-                    RecolhaInfo.infoEmbarcacoes(porto.getEmbarcacoes(), scanner);
+                    RecolhaInfo.verEmbarcacoes(porto.getEmbarcacoes(), scanner);
                 case 5 ->
-                    System.out.println("Opcao: ver embarcacoes");
+                    RecolhaInfo.ativarRadarDoPorto(porto);
                 case 0 ->
                     System.out.println("Voltando ao menu principal...");
                 default ->

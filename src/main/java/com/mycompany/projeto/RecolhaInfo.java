@@ -146,17 +146,7 @@ public class RecolhaInfo {
         } while (opcaoOrdenacao != 0);
     }
 
-    public static void infoEmbarcacoes(List<Embarcacao> embarcacoes, Scanner scanner) {
-        if (embarcacoes.isEmpty()) {
-            System.out.println("Nao ha embarcacoes registrados.");
-            return;
-        }
-        for (Embarcacao e : embarcacoes) {
-            System.out.println(e);
-        }
-    }
-
-    public static void verembarcacoes(List<Embarcacao> embarcacoes, Scanner scanner) {
+    public static void verEmbarcacoes(List<Embarcacao> embarcacoes, Scanner scanner) {
         if (embarcacoes.isEmpty()) {
             System.out.println("Nao ha embarcacoes registradas.");
             return;
@@ -175,6 +165,23 @@ public class RecolhaInfo {
 
         int opcao;
         do {
+            System.out.println("\n--- Embarcacoes disponiveis ---");
+            System.out.println(ordemAtual);
+
+            for (Zona zona : Zona.values()) {
+                System.out.println("\nZONA " + zona + ":");
+                List<Embarcacao> embarcacoesNaZona = embarcacoesPorZona.get(zona);
+                if (embarcacoesNaZona.isEmpty()) {
+                    System.out.println("- SEM REGISTO");
+                } else {
+                    for (int i = 0; i < embarcacoesNaZona.size(); i++) {
+                        Embarcacao embarcacao = embarcacoesNaZona.get(i);
+                        String status = embarcacao.isInMissao() ? " (Em missao)" : " (Disponivel)";
+                        System.out.printf("%d: %s%s\n", i + 1, embarcacao.toString(), status);
+                    }
+                }
+            }
+
             System.out.println("\nDeseja ordenar por:");
             System.out.println("1. ID (crescente)");
             System.out.println("2. Marca (crescente)");
@@ -209,41 +216,9 @@ public class RecolhaInfo {
                 default ->
                     System.out.println("Opcao invalida!");
             }
-
-            if (opcao != 0) {
-                mostrarEmbarcacoesPorZona(embarcacoes, ordemAtual);
-            }
         } while (opcao != 0);
     }
 
-    private static void mostrarEmbarcacoesPorZona(List<Embarcacao> embarcacoes, String ordemAtual) {
-        System.out.println("\n--- Embarcacoes disponiveis ---");
-        System.out.println(ordemAtual);
-
-        Map<Zona, List<Embarcacao>> embarcacoesPorZona = new HashMap<>();
-        for (Zona zona : Zona.values()) {
-            embarcacoesPorZona.put(zona, new ArrayList<>());
-        }
-
-        for (Embarcacao e : embarcacoes) {
-            embarcacoesPorZona.get(e.getZona()).add(e);
-        }
-
-        for (Zona zona : Zona.values()) {
-            System.out.println("\nZONA " + zona + ":");
-            List<Embarcacao> embarcacoesNaZona = embarcacoesPorZona.get(zona);
-            if (embarcacoesNaZona.isEmpty()) {
-                System.out.println("- SEM REGISTO");
-            } else {
-                for (int i = 0; i < embarcacoesNaZona.size(); i++) {
-                    Embarcacao embarcacao = embarcacoesNaZona.get(i);
-                    String status = embarcacao.isInMissao() ? " (Em missao)" : " (Disponivel)";
-                    System.out.printf("%d: %s%s\n", i + 1, embarcacao.toString(), status);
-                }
-            }
-        }
-    }
-    
     public static Embarcacao criarEmbarcacao(Scanner scanner, List<Embarcacao> embarcacoes, List<Integer> existingIDs) {
         System.out.println("Criar Embarcacao");
         int id = GenerateID.randomUniqueID(1, 1000, existingIDs);
@@ -670,7 +645,7 @@ public class RecolhaInfo {
         }
     }
 
-    public static void terminarMissao(Scanner scanner, Porto porto){
+    public static void terminarMissao(Scanner scanner, Porto porto) {
         System.out.println("\n--- Embarcacoes em missao ---");
         for (int i = 0; i < porto.getEmbarcacoes().size(); i++) {
             Embarcacao embarcacao = porto.getEmbarcacoes().get(i);
@@ -678,7 +653,7 @@ public class RecolhaInfo {
                 System.out.printf("%d:" + embarcacao.getZona() + " -> " + embarcacao.toString() + "\n", i + 1);
             }
         }
-        
+
         // Escolher uma embarcação
         System.out.print("\nEscolha o numero da embarcacao para terminar missao: ");
         int embarcacaoIndex = scanner.nextInt() - 1;
@@ -695,7 +670,7 @@ public class RecolhaInfo {
             System.out.println("A embarcacao ja está em missao. Escolhe outra.");
             return;
         }
-        
+
         if (embarcacaoSelecionada instanceof LanchaRapida) {
             Zona zonaAtual = embarcacaoSelecionada.getZona();
             System.out.println("A embarcacao selecionada é uma LanchaRapida. Todas as lanchas rapidas na zona " + zonaAtual + " terão suas missões terminadas.");
@@ -712,10 +687,10 @@ public class RecolhaInfo {
             porto.terminarMissao(embarcacaoSelecionada);
             System.out.println("Missão terminada para: " + embarcacaoSelecionada.toString());
         }
-        
+
         porto.terminarMissao(embarcacaoSelecionada);
     }
-    
+
     // FILE WRITING
     public static void GuardarInfo(Scanner scanner, List<Marinheiro> marinheiros, List<Embarcacao> embarcacoes) {
 
@@ -900,4 +875,14 @@ public class RecolhaInfo {
         }
         return motores;
     }
+    
+    public static void ativarRadarDoPorto(Porto porto) {
+        if (porto == null) {
+            System.out.println("Porto inválido.");
+            return;
+        }
+        // Ativa o radar e coleta informações
+        porto.ativarRadar(); 
+    }
 }
+

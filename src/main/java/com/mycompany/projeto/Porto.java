@@ -11,17 +11,17 @@ import java.util.ArrayList;
  * @author maria
  */
 public class Porto {
-    
-    private ArrayList <Embarcacao> embarcacoes;
-    private ArrayList <Marinheiro> marinheiros;
+
+    private ArrayList<Embarcacao> embarcacoes;
+    private ArrayList<Marinheiro> marinheiros;
     private String nome;
     private int numTotalMissoes;
     private RadarSimples radar;
     private Zona zonaAssociada;
 
     public Porto(String nome) {
-        this.embarcacoes = new ArrayList <Embarcacao>();
-        this.marinheiros = new ArrayList <Marinheiro>();
+        this.embarcacoes = new ArrayList<>();
+        this.marinheiros = new ArrayList<>();
         this.nome = nome;
         this.numTotalMissoes = 0;
         this.radar = new RadarSimples();
@@ -47,9 +47,9 @@ public class Porto {
     public Zona getZonaAssociada() {
         return zonaAssociada;
     }
-    
-    public void showListaDeEmbarcacoes(){
-        for (Embarcacao embarcacao: embarcacoes){
+
+    public void showListaDeEmbarcacoes() {
+        for (Embarcacao embarcacao : embarcacoes) {
             embarcacao.toString();
         }
     }
@@ -61,46 +61,46 @@ public class Porto {
     public void setMarinherios(ArrayList<Marinheiro> marinherios) {
         this.marinheiros = marinherios;
     }
-    
-    
-    public void adicionarEmbarcacao(Embarcacao embarcacao){
-        if (embarcacao == null){
+
+    public void adicionarEmbarcacao(Embarcacao embarcacao) {
+        if (embarcacao == null) {
             throw new IllegalStateException("Porto: A embarcacao nao pode ter valor null");
         }
         this.embarcacoes.add(embarcacao);
     }
-    
-    public void adicionarMarinheiro(Marinheiro marinheiro){
-        if (marinheiro == null){
+
+    public void adicionarMarinheiro(Marinheiro marinheiro) {
+        if (marinheiro == null) {
             throw new IllegalStateException("Porto: A embarcacao nao pode ter valor null");
         }
         this.marinheiros.add(marinheiro);
     }
-    
-    public void lancarMissao(Embarcacao embarcacao, ArrayList<Marinheiro> tripulacao, Zona zona){
-        if(!this.embarcacoes.contains(embarcacao)){
+
+    public void lancarMissao(Embarcacao embarcacao, ArrayList<Marinheiro> tripulacao, Zona zona) {
+        if (!this.embarcacoes.contains(embarcacao)) {
             throw new IllegalStateException("Porto: A embarcacao esta em missao");
         }
         embarcacao.ativarMissao(zona, tripulacao);
         this.numTotalMissoes += 1;
     }
-    
-    public void terminarMissao(Embarcacao embarcacao){
-        if(this.embarcacoes.contains(embarcacao)){
+
+    public void terminarMissao(Embarcacao embarcacao) {
+        if (this.embarcacoes.contains(embarcacao)) {
             throw new IllegalStateException("Porto: A embarcacao esta atracada");
         }
         embarcacao.terminarMissao();
     }
-    
-    public void ativarRadar(ArrayList<Embarcacao> todasEmbarcacoes) {
+
+    public void ativarRadar() {
         if (this.radar == null) {
             throw new IllegalStateException("Navio Suporte: Radar não está instalado.");
         }
 
         this.radar.ligar();
-        
-        ArrayList<Embarcacao> detectadasNoPorto = radar.detectarEmbarcacoes(todasEmbarcacoes, Zona.INDEF);
-        ArrayList<Embarcacao> detectadasNaZonaAssociada = radar.detectarEmbarcacoes(todasEmbarcacoes, this.zonaAssociada);
+
+        ArrayList<Embarcacao> detectadasNoPorto = radar.detectarEmbarcacoes(this.embarcacoes, Zona.INDEF);
+        this.radar.exibirInformacoesDeteccoes();
+        ArrayList<Embarcacao> detectadasNaZonaAssociada = radar.detectarEmbarcacoes(this.embarcacoes, this.zonaAssociada);
         this.radar.exibirInformacoesDeteccoes();
     }
 }
