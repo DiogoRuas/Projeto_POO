@@ -43,11 +43,11 @@ public class RecolhaInfo {
                 System.out.print("Digite a patente (OFICIAL, SARGENTO, PRACA): ");
                 patente = Patente.valueOf(scanner.next().toUpperCase());
 
-                // Gerar ID único usando GenerateID
+                // Gerar ID único com o GenerateID
                 int id = GenerateID.randomUniqueID(1000, 9999, existingIDs);
                 existingIDs.add(id); // Adiciona o novo ID à lista de IDs existentes
 
-                // Criar o marinheiro usando o construtor
+                // Criar o marinheiro 
                 Marinheiro novoMarinheiro = new Marinheiro(nome, id, dataNascimento, patente);
                 System.out.println("Marinheiro criado com sucesso:");
                 System.out.println(novoMarinheiro.toString());
@@ -72,8 +72,14 @@ public class RecolhaInfo {
             return;
         }
 
-        // Exibe a lista de marinheiros inicialmente ordenada por nome crescente
-        Collections.sort(marinheiros, Comparator.comparing(m -> m.getNome(), String.CASE_INSENSITIVE_ORDER)); // Ordena por nome inicialmente
+        // Ordenação inicial por nome  
+        Collections.sort(marinheiros, new Comparator<Marinheiro>() {
+            @Override
+            public int compare(Marinheiro m1, Marinheiro m2) {
+                return m1.getNome().compareToIgnoreCase(m2.getNome());
+            }
+        });
+
         System.out.println("\n--- Lista de Marinheiros ---");
         for (Marinheiro m : marinheiros) {
             System.out.println(m);
@@ -83,7 +89,7 @@ public class RecolhaInfo {
         String ordemAtual = "Ordenado por nome (crescente)";
         System.out.println(ordemAtual);
 
-        // Menu de opções para ordenar
+        // Menu de opções para ordenar. O user escolhe como quer ordenar
         int opcaoOrdenacao;
         do {
             System.out.println("\nDeseja ordenar por:");
@@ -95,12 +101,17 @@ public class RecolhaInfo {
 
             if (scanner.hasNextInt()) {
                 opcaoOrdenacao = scanner.nextInt();
-                scanner.nextLine(); // Consumir nova linha
+                scanner.nextLine(); // Consumir nova linha no scanne
 
                 switch (opcaoOrdenacao) {
                     case 1 -> {
                         if (!ordemAtual.equals("Ordenado por ID (crescente)")) {
-                            Collections.sort(marinheiros, Comparator.comparing(Marinheiro::getId));
+                            Collections.sort(marinheiros, new Comparator<Marinheiro>() {
+                                @Override
+                                public int compare(Marinheiro m1, Marinheiro m2) {
+                                    return Integer.compare(m1.getId(), m2.getId());
+                                }
+                            });
                             ordemAtual = "Ordenado por ID (crescente)";
                         } else {
                             System.out.println("Ja esta ordenado por ID (crescente).");
@@ -108,7 +119,12 @@ public class RecolhaInfo {
                     }
                     case 2 -> {
                         if (!ordemAtual.equals("Ordenado por Data de Nascimento (decrescente)")) {
-                            Collections.sort(marinheiros, Comparator.comparing(Marinheiro::getdataNascinento).reversed());
+                            Collections.sort(marinheiros, new Comparator<Marinheiro>() {
+                                @Override
+                                public int compare(Marinheiro m1, Marinheiro m2) {
+                                    return m2.getdataNascinento().compareTo(m1.getdataNascinento());
+                                }
+                            });
                             ordemAtual = "Ordenado por Data de Nascimento (decrescente)";
                         } else {
                             System.out.println("Ja esta ordenado por Data de Nascimento (decrescente).");
@@ -116,7 +132,12 @@ public class RecolhaInfo {
                     }
                     case 3 -> {
                         if (!ordemAtual.equals("Ordenado por nome (crescente)")) {
-                            Collections.sort(marinheiros, Comparator.comparing(m -> m.getNome(), String.CASE_INSENSITIVE_ORDER));
+                            Collections.sort(marinheiros, new Comparator<Marinheiro>() {
+                                @Override
+                                public int compare(Marinheiro m1, Marinheiro m2) {
+                                    return m1.getNome().compareToIgnoreCase(m2.getNome());
+                                }
+                            });
                             ordemAtual = "Ordenado por nome (crescente)";
                         } else {
                             System.out.println("Ja esta ordenado por nome (crescente).");
@@ -140,7 +161,7 @@ public class RecolhaInfo {
 
             } else {
                 System.out.println("Entrada invalida! Por favor, insira um numero.");
-                scanner.nextLine(); // Limpa o buffer do scanner
+                scanner.nextLine();
                 opcaoOrdenacao = -1; // Para continuar o loop
             }
         } while (opcaoOrdenacao != 0);
@@ -190,7 +211,7 @@ public class RecolhaInfo {
             System.out.print("Escolha uma opção: ");
 
             opcao = scanner.nextInt();
-            scanner.nextLine(); // Consumir nova linha
+            scanner.nextLine();
 
             switch (opcao) {
                 case 1 -> {
@@ -223,6 +244,7 @@ public class RecolhaInfo {
         System.out.println("Criar Embarcacao");
         int id = GenerateID.randomUniqueID(1, 1000, existingIDs);
 
+        // Chama as funções secundárias
         String nome = lerNome(scanner, embarcacoes);
         String marca = lerMarca(scanner);
         String modelo = lerModelo(scanner);
@@ -230,6 +252,7 @@ public class RecolhaInfo {
 
         int tipoEmbarcacao = lerTipoEmbarcacao(scanner);
 
+        // Pede as informações consoante o tipo de embarcação
         switch (tipoEmbarcacao) {
             case 1 -> {
                 Motor motor = lerMotor(scanner);
@@ -253,7 +276,8 @@ public class RecolhaInfo {
             }
             case 3 -> {
                 ArrayList<Motor> motores = new ArrayList<>();
-                for (int i = 0; i < 2; i++) {
+                int numMotores = lerNumMotores(scanner, 2, 4);
+                for (int i = 0; i < numMotores; i++) {
                     Motor motor;
                     do {
                         System.out.println("Motor " + (i + 1) + " do Navio de Suporte:");
@@ -470,6 +494,7 @@ public class RecolhaInfo {
             return;
         }
 
+        // Usa-se um hasmap para associar embarcações às suas zonas
         Map<Zona, List<Embarcacao>> embarcacoesPorZona = new HashMap<>();
         for (Zona zona : Zona.values()) {
             embarcacoesPorZona.put(zona, new ArrayList<>());
@@ -527,7 +552,7 @@ public class RecolhaInfo {
         // Solicitar ao usuário que escolha um marinheiro para remover
         System.out.print("Escolha o numero do marinheiro que deseja remover: ");
         int index = scanner.nextInt() - 1; // Ajusta o índice para zero-based
-        scanner.nextLine(); // Limpa o buffer
+        scanner.nextLine();
 
         if (index >= 0 && index < marinheiros.size()) {
             Marinheiro removedMarinheiro = marinheiros.remove(index);
@@ -539,7 +564,7 @@ public class RecolhaInfo {
 
     public static void iniciarMissao(Scanner scanner, Porto porto) {
         if (porto.getEmbarcacoes().isEmpty()) {
-            System.out.println("Nao ha embarcacoes disponíveis no porto para iniciar uma missao.");
+            System.out.println("Nao ha embarcacoes disponiveis no porto para iniciar uma missao.");
             return;
         }
 
@@ -548,7 +573,7 @@ public class RecolhaInfo {
             return;
         }
 
-        // Exibir embarcações disponíveis
+        // Exibir embarcações disponíves
         System.out.println("\n--- Embarcacoes disponiveis ---");
         for (int i = 0; i < porto.getEmbarcacoes().size(); i++) {
             Embarcacao embarcacao = porto.getEmbarcacoes().get(i);
@@ -563,7 +588,7 @@ public class RecolhaInfo {
         scanner.nextLine();
 
         if (embarcacaoIndex < 0 || embarcacaoIndex >= porto.getEmbarcacoes().size()) {
-            System.out.println("Opção inválida. Opperacao cancelada.");
+            System.out.println("Opção invalida. Opperacao cancelada.");
             return;
         }
 
@@ -591,11 +616,11 @@ public class RecolhaInfo {
         }
 
         // Selecionar tripulação
-        System.out.print("\nEscolha os IDs dos marinheiros para formar a tripulação (separados por virgula): ");
+        System.out.print("\nEscolha os IDs dos marinheiros para formar a tripulacao (separados por virgula): ");
         ArrayList<Marinheiro> tripulacao = new ArrayList<>();
 
         while (tripulacao.isEmpty()) {
-            System.out.print("\nEscolha os IDs dos marinheiros para formar a tripulação (separados por virgula): ");
+            System.out.print("\nEscolha os IDs dos marinheiros para formar a tripulacao (separados por virgula): ");
             String[] idsSelecionados = scanner.nextLine().split(",");
             boolean todosValidos = true;
 
@@ -604,7 +629,7 @@ public class RecolhaInfo {
                     int id = Integer.parseInt(idStr.trim());
                     Marinheiro marinheiro = null;
 
-                    // Loop simples para procurar o marinheiro com o ID especificado
+                    // Loop para procurar o marinheiro com o ID especificado
                     for (Marinheiro m : marinheirosDisponiveis) {
                         if (m.getId() == id) {
                             marinheiro = m;
@@ -619,7 +644,7 @@ public class RecolhaInfo {
                         todosValidos = false;
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("Entrada inválida para ID. Escreva Apenas numeros.");
+                    System.out.println("Entrada invalida para ID. Escreva Apenas numeros.");
                     todosValidos = false;
                 }
             }
@@ -660,30 +685,30 @@ public class RecolhaInfo {
         scanner.nextLine();
 
         if (embarcacaoIndex < 0 || embarcacaoIndex >= porto.getEmbarcacoes().size()) {
-            System.out.println("Opção invalida. Operacao cancelada.");
+            System.out.println("Opcao invalida. Operacao cancelada.");
             return;
         }
 
         Embarcacao embarcacaoSelecionada = porto.getEmbarcacoes().get(embarcacaoIndex);
 
         if (embarcacaoSelecionada.isInMissao()) {
-            System.out.println("A embarcacao ja está em missao. Escolhe outra.");
+            System.out.println("A embarcacao ja esta em missao. Escolhe outra.");
             return;
         }
 
         if (embarcacaoSelecionada instanceof LanchaRapida) {
             Zona zonaAtual = embarcacaoSelecionada.getZona();
-            System.out.println("A embarcacao selecionada é uma LanchaRapida. Todas as lanchas rapidas na zona " + zonaAtual + " terão suas missões terminadas.");
+            System.out.println("A embarcacao selecionada e uma LanchaRapida. Todas as lanchas rapidas na zona " + zonaAtual + " terminarao as suas missoes.");
 
             // Terminar missão de todas as lanchas rápidas na mesma zona
             for (Embarcacao e : porto.getEmbarcacoes()) {
                 if (e instanceof LanchaRapida && e.isInMissao() && e.getZona() == zonaAtual) {
                     e.terminarMissao();
-                    System.out.println("Missão terminada para: " + e.toString());
+                    System.out.println("Missao terminada para: " + e.toString());
                 }
             }
         } else {
-            // Terminar missão apenas da embarcação selecionada se não for lancha
+            // Terminar missão apenas sa embarcação selecionada se não for lancha
             porto.terminarMissao(embarcacaoSelecionada);
             System.out.println("Missão terminada para: " + embarcacaoSelecionada.toString());
         }
@@ -875,14 +900,13 @@ public class RecolhaInfo {
         }
         return motores;
     }
-    
+
     public static void ativarRadarDoPorto(Porto porto) {
         if (porto == null) {
             System.out.println("Porto inválido.");
             return;
         }
         // Ativa o radar e coleta informações
-        porto.ativarRadar(); 
+        porto.ativarRadar();
     }
 }
-
